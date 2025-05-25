@@ -22,7 +22,7 @@ public class ServoControl {
     private double stepSize = 0.15;   // This is used to simulate using an encoder for a servo
                                             // so that we can know if the servo is still turning
     //TODO:
-    // Tune stepSize so that for your servo, if the stepSize was any smaller your servo would turn slower
+    // Tune stepSize so that for your servo: if you made stepSize any smaller your servo would turn slower than normal
     // You want your servo to move exactly by the stepSize each hardware update cycle without stopping
 
     public ServoControl(RobotHardware rh, String servoName) {

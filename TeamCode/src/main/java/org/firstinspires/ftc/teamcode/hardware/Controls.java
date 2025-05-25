@@ -21,9 +21,9 @@ public class Controls {
     }
 
     /**
-        Scales inputs between -1 and 1 to values between -1 and 1
-        such that -1, 1, and 0 are deadzones, so that small changes
-        to the input have little to no change in the output
+        Scales inputs between -1 and 1 to values between -1 and 1 such that
+        -1, 1, and 0 are deadzones, so that small changes to the input have
+        little to no change in the output around the deadzones
 
         This uses the function:
           y = 2.5x^3 - 1.5x^5

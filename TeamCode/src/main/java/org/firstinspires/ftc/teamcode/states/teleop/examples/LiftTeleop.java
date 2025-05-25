@@ -21,11 +21,6 @@ public class LiftTeleop implements State {
     }
 
     @Override
-    public void stop() {
-
-    }
-
-    @Override
     public boolean isDone() {
         return false;
     }

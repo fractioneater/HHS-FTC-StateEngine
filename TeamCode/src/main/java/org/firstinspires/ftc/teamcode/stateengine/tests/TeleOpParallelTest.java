@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.DriveTeleo
 @TeleOp(name="Parallel Test", group="Testing")
 public class TeleOpParallelTest extends LinearOpMode {
 
-    // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private RobotHardware rh = new RobotHardware(this);
 
@@ -43,7 +42,6 @@ public class TeleOpParallelTest extends LinearOpMode {
 
             stack.run();
 
-            // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
         }

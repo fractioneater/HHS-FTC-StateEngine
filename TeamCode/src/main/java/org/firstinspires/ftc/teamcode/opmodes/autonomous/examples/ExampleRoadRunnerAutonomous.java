@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.examples;
+package org.firstinspires.ftc.teamcode.teamcode.opmodes.autonomous.examples;
 
 import com.acmerobotics.roadrunner.Pose2d;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.teamcode.stateengine.SeriesStack;
@@ -14,9 +14,7 @@ import org.firstinspires.ftc.teamcode.teamcode.states.autonomous.*;
 @Autonomous(name="RoadRunner Testing", group="Examples")
 public class ExampleRoadRunnerAutonomous extends LinearOpMode {
 
-    // Declare OpMode members for each of the 4 motors.
     private RobotHardware rh = new RobotHardware(this);
-
 
     @Override
     public void runOpMode() {
@@ -61,7 +59,6 @@ public class ExampleRoadRunnerAutonomous extends LinearOpMode {
                 rh.update();
             }
 
-            // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
 
             rh.telemetry();

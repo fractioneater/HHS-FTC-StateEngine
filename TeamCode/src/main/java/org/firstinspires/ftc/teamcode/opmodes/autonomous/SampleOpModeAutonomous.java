@@ -1,17 +1,15 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.teamcode.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.teamcode.stateengine.SeriesStack;
 import org.firstinspires.ftc.teamcode.teamcode.stateengine.ParallelStack;
 import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.ClawTeleop;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.DriveTeleop;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.LiftTeleop;
 
 
-@TeleOp(name="Example OpMode", group="Examples")
+@Autonomous(name="Sample Series OpMode", group="Samples")
 public class SampleOpMode extends LinearOpMode {
 
     private RobotHardware rh = new RobotHardware(this);
@@ -21,7 +19,7 @@ public class SampleOpMode extends LinearOpMode {
 
         rh.initialize();
 
-        ParallelStack stack = new ParallelStack();
+        SeriesStack stack = new SeriesStack();
         State[] states = {
 /*TODO
             Here you will setup all your teleop states in this list

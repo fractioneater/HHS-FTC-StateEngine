@@ -23,11 +23,6 @@ public class ClawTeleop implements State {
     }
 
     @Override
-    public void stop() {
-
-    }
-
-    @Override
     public boolean isDone() {
         return false;
     }

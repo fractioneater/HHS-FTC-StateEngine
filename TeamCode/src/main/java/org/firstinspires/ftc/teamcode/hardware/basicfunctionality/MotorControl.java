@@ -15,7 +15,7 @@ public class MotorControl {
 
     private int[] positions = null;
 
-    // There separate increasing and decreasing speeds for cases such as
+    // These separate increasing and decreasing speeds for cases such as
     // going slower down so that gravity doesn't make a lift system damage the robot
     private double increasingSpeed = 1.0;
     private double decreasingSpeed = 1.0;
@@ -136,8 +136,8 @@ public class MotorControl {
             return 0.0;
         }
 
-        // returns speed when outside clamping distance
-        if (distance <= clampingDistance) {
+        // returns speed when above clamping distance
+        if (distance >= clampingDistance) {
             return speed;
         }
 

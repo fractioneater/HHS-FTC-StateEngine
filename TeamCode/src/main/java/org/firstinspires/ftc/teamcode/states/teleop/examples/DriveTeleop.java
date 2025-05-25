@@ -27,11 +27,6 @@ public class DriveTeleop implements State {
     }
 
     @Override
-    public void stop() {
-
-    }
-
-    @Override
     public boolean isDone() {
         return false;
     }

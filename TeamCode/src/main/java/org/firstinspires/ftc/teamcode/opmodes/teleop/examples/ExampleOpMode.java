@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.examples;
+package org.firstinspires.ftc.teamcode.teamcode.opmodes.teleop.examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -47,7 +47,6 @@ public class ExampleOpMode extends LinearOpMode {
             stack.run();
             rh.update();
 
-            // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
 
             rh.telemetry();
