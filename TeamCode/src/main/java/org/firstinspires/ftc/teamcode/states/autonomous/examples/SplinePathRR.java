@@ -1,6 +1,6 @@
 //TODO: I still need to work out how to update my rr 0.5.x code to the new 1.0 rr
 
-package org.firstinspires.ftc.teamcode.teamcode.states.autonomous;
+package org.firstinspires.ftc.teamcode.teamcode.states.autonomous.examples;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Trajectory;
@@ -55,11 +55,6 @@ public class SplinePathRR implements State {
     public void run() {
         isDone = true;
 //        drive.followTrajectory(trajBuild.build());
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     @Override

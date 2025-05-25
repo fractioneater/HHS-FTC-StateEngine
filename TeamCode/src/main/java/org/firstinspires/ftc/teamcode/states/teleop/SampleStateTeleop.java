@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teamcode.states.teleop;
 
 import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-public class SampleTeleop implements State {
+public class SampleStateTeleop implements State {
 
     // creates a reference to the main RobotHardware object for easy access
     RobotHardware rh = null;
@@ -24,9 +24,6 @@ public class SampleTeleop implements State {
 
 
     /// teleop states will probably run for the entire teleop stage so they won't need to stop
-    @Override
-    public void stop() {
-    }
     @Override
     public boolean isDone() {
         return false;

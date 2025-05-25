@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.teamcode.states.teleop;
+package org.firstinspires.ftc.teamcode.teamcode.states.autonomous;
 
 
 import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-public class SampleTeleop implements State {
+public class SampleStateAutonomous implements State {
 
     // creates a reference to the main RobotHardware object for easy access
     RobotHardware rh = null;
@@ -11,24 +11,21 @@ public class SampleTeleop implements State {
     @Override
     public void init(RobotHardware rh) {
         this.rh = rh; // makes rh reference the main opmode's rh
-        // there probably won't be any need to init anything in the teleop states
+        // init anything needed for this state
+        // but this will likely not be used for most states
     }
 
     @Override
     public void run() {
         // the functions that call hardware functions are put here
 
-        //todo: DO NOT have code editing the hardware here!
-        //      That should all be done by calling hardware functions!
+        /*TODO: DO NOT have code directly editing or accessing the hardware here!
+        * That should be done by calling hardware functions!
+        */
     }
 
-
-    /// teleop states will probably run for the entire teleop stage so they won't need to stop
-    @Override
-    public void stop() {
-    }
     @Override
     public boolean isDone() {
-        return false;
+        return false; //TODO: Update this function to return true when the state has finished running
     }
 }
