@@ -1,15 +1,14 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.autonomous;
+package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.SeriesStack;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.ParallelStack;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.SeriesStack;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 
 
-@Autonomous(name="Sample Series OpMode", group="Samples")
+@Autonomous(name = "Sample Series OpMode", group = "Samples")
 public class SampleOpMode extends LinearOpMode {
 
     private RobotHardware rh = new RobotHardware(this);
@@ -27,8 +26,7 @@ public class SampleOpMode extends LinearOpMode {
 
             ex)
                 new SampleTeleop(),
-*/
-        };
+*/};
         stack.createStack(states);
 
         stack.init(rh);
@@ -55,4 +53,5 @@ public class SampleOpMode extends LinearOpMode {
 
             telemetry.update();
         }
-    }}
+    }
+}

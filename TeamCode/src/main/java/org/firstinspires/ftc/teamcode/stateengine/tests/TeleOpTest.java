@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.teamcode.stateengine.tests;
+package org.firstinspires.ftc.teamcode.stateengine.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.DriveTeleop;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
 
 
 @TeleOp(name="TeleOp Test", group="Testing")

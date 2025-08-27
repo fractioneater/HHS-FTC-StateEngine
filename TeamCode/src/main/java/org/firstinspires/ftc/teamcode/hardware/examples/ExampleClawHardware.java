@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.hardware.examples;
+package org.firstinspires.ftc.teamcode.hardware.examples;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.*;
-import org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality.Hardware;
-import org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality.ServoControl;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl;
 
 public class ExampleClawHardware implements Hardware {
 

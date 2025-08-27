@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.teamcode.stateengine;
+package org.firstinspires.ftc.teamcode.stateengine;
 
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 
 public class SeriesStack extends StackList implements State {
 

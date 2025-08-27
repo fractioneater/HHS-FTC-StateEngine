@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples;
+package org.firstinspires.ftc.teamcode.states.teleop.examples;
 
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 
 public class DriveTeleop implements State {
 
@@ -24,6 +24,11 @@ public class DriveTeleop implements State {
         double yaw     =  rh.controls.driveR();
 
         rh.exampleDriveH.drive(axial, lateral, yaw, max);
+    }
+
+    @Override
+    public void stop() {
+        // TODO.
     }
 
     @Override

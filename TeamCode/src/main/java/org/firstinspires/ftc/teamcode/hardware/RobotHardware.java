@@ -1,10 +1,12 @@
-package org.firstinspires.ftc.teamcode.teamcode.hardware;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality.Hardware;
-import org.firstinspires.ftc.teamcode.teamcode.hardware.examples.*;
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.examples.ExampleClawHardware;
+import org.firstinspires.ftc.teamcode.hardware.examples.ExampleDriveHardware;
+import org.firstinspires.ftc.teamcode.hardware.examples.ExampleLiftHardware;
 
 
 public class RobotHardware implements Hardware {
@@ -15,12 +17,12 @@ public class RobotHardware implements Hardware {
 
     public Controls controls = null;
     public Hardware[] hardware = null;
-/*TODO
-    This is where you will define all your hardware objects:
+    /*TODO
+        This is where you will define all your hardware objects:
 
-    ex)
-        public SampleHardware sampleH = null;
- */
+        ex)
+            public SampleHardware sampleH = null;
+     */
     public ExampleClawHardware exampleClawH = null;
     public ExampleDriveHardware exampleDriveH = null;
     public ExampleLiftHardware exampleLiftH = null;

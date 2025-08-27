@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.autonomous.examples;
+package org.firstinspires.ftc.teamcode.opmodes.autonomous.examples;
 
 import com.acmerobotics.roadrunner.Pose2d;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.SeriesStack;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.teamcode.states.autonomous.*;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.SeriesStack;
+import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.states.autonomous.*;
+import org.firstinspires.ftc.teamcode.states.autonomous.examples.SplinePathRR;
 
 
 @Autonomous(name="RoadRunner Testing", group="Examples")

@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.hardware.examples;
+package org.firstinspires.ftc.teamcode.hardware.examples;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.teamcode.teamcode.hardware.*;
-import org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality.Hardware;
+import org.firstinspires.ftc.teamcode.hardware.*;
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
 
 public class ExampleDriveHardware implements Hardware {
 

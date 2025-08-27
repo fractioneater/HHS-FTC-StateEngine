@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality;
+package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 
 /// ServoControl is designed to emulate an encoder for a servo
 /// and provide the ability to easily move to preset positions
@@ -19,8 +19,7 @@ public class ServoControl {
     private double position = 0.0;
     private double targetPosition = 0.0;
 
-    private double stepSize = 0.15;   // This is used to simulate using an encoder for a servo
-                                            // so that we can know if the servo is still turning
+    private double stepSize = 0.15;   // This is used to simulate using an encoder for a servo so that we can know if the servo is still turning
     //TODO:
     // Tune stepSize so that for your servo: if you made stepSize any smaller your servo would turn slower than normal
     // You want your servo to move exactly by the stepSize each hardware update cycle without stopping
@@ -30,6 +29,7 @@ public class ServoControl {
         servo = rh.op.hardwareMap.get(Servo.class, servoName);
         name = servoName;
     }
+
     public ServoControl(RobotHardware rh, String servoName, double stepSize) {
         this.rh = rh;
         servo = rh.op.hardwareMap.get(Servo.class, servoName);
@@ -53,7 +53,7 @@ public class ServoControl {
     }
 
     public boolean isMoving() {
-        return 0.0 != ( getCurrentPosition() - getTargetPosition() );
+        return 0.0 != (getCurrentPosition() - getTargetPosition());
     }
 
     public void setPositions(double[] positions) { // should ONLY be called in initialization

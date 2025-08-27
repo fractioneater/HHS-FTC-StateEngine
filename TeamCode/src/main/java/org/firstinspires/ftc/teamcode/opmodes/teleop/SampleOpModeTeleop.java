@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.ParallelStack;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.ParallelStack;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 
 
 @TeleOp(name="Sample Parallel OpMode", group="Samples")

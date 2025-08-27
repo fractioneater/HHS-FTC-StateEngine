@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.states.autonomous;
+package org.firstinspires.ftc.teamcode.states.autonomous;
 
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 public class SampleStateAutonomous implements State {
 
     // creates a reference to the main RobotHardware object for easy access
@@ -22,6 +22,11 @@ public class SampleStateAutonomous implements State {
         /*TODO: DO NOT have code directly editing or accessing the hardware here!
         * That should be done by calling hardware functions!
         */
+    }
+
+    @Override
+    public void stop() {
+        // TODO.
     }
 
     @Override

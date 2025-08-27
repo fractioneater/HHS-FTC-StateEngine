@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.hardware.basicfunctionality;
+package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 
 public class MotorControl {
 
@@ -34,6 +34,7 @@ public class MotorControl {
         motor.setDirection(direction);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
+
     public MotorControl(RobotHardware rh, String motorName, DcMotor.Direction direction, DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
         this.rh = rh;
         motor = rh.op.hardwareMap.get(DcMotor.class, motorName);
@@ -49,11 +50,11 @@ public class MotorControl {
 
     // This is the function to get the motor to move
     public void move() {
-        motor.setPower( powerCurve() );
+        motor.setPower(powerCurve());
     }
 
     public boolean isMoving() {
-        return 0.0 != ( motor.getCurrentPosition() - motor.getTargetPosition() );
+        return 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition());
     }
 
     public void setRange(int min, int max) {
@@ -75,7 +76,9 @@ public class MotorControl {
         motor.setTargetPosition(target);
     }
 
-/**----------------------------------------------------------------------------------------------**/
+    /**
+     * ----------------------------------------------------------------------------------------------
+     **/
 
     public void goToPosition(int targetPosition) {
         motor.setTargetPosition(targetPosition);
@@ -89,7 +92,9 @@ public class MotorControl {
         return motor.getTargetPosition();
     }
 
-/**----------------------------------------------------------------------------------------------**/
+    /**
+     * ----------------------------------------------------------------------------------------------
+     **/
 
     public void setSpeedControls(double speed) {
         this.increasingSpeed = speed;
@@ -112,8 +117,8 @@ public class MotorControl {
     private int clampingDistance = 1000;    // Max speed is used above this distance
     private int brakingDistance = 30;       // Brake below this distance from target
     private double stretch = 100;           // For a base of 2 this is the distance at which 50% speed will be used
-                                                // Above this distance it will approach 100% speed
-                                                // Below this distance it will approach 0% speed with a deadzone near 0 distance
+    // Above this distance it will approach 100% speed
+    // Below this distance it will approach 0% speed with a deadzone near 0 distance
 
     // Please note that because this motor uses run to position we can treat all distances as positive
     // And only note the direction for the speed to be used in each direction
@@ -151,21 +156,20 @@ public class MotorControl {
     }
 
 
-
     public void telemetry() {
 
         rh.op.telemetry.addLine();
 
-        rh.op.telemetry.addData("Motor",  name );
+        rh.op.telemetry.addData("Motor", name);
 
         rh.op.telemetry.addLine();
 
-        rh.op.telemetry.addData("Min",  min );
-        rh.op.telemetry.addData("Max",  max );
-        rh.op.telemetry.addData("Current Position",  motor.getCurrentPosition() );
-        rh.op.telemetry.addData("Target  Position",  motor.getTargetPosition() );
-        rh.op.telemetry.addData("Moving",  isMoving() );
-        rh.op.telemetry.addData("Speed",  powerCurve() );
+        rh.op.telemetry.addData("Min", min);
+        rh.op.telemetry.addData("Max", max);
+        rh.op.telemetry.addData("Current Position", motor.getCurrentPosition());
+        rh.op.telemetry.addData("Target  Position", motor.getTargetPosition());
+        rh.op.telemetry.addData("Moving", isMoving());
+        rh.op.telemetry.addData("Speed", powerCurve());
 
     }
 }

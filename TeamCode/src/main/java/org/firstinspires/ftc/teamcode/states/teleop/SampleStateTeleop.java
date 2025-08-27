@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.states.teleop;
+package org.firstinspires.ftc.teamcode.states.teleop;
 
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 public class SampleStateTeleop implements State {
 
     // creates a reference to the main RobotHardware object for easy access
@@ -20,6 +20,11 @@ public class SampleStateTeleop implements State {
 
         //todo: DO NOT have code editing the hardware here!
         //      That should all be done by calling hardware functions!
+    }
+
+    @Override
+    public void stop() {
+        // TODO.
     }
 
 

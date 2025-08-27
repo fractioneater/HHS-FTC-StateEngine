@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.teamcode.opmodes.teleop.examples;
+package org.firstinspires.ftc.teamcode.opmodes.teleop.examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.ParallelStack;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.ClawTeleop;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.DriveTeleop;
-import org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples.LiftTeleop;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.ParallelStack;
+import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.states.teleop.examples.ClawTeleop;
+import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
+import org.firstinspires.ftc.teamcode.states.teleop.examples.LiftTeleop;
 
 
 @TeleOp(name="Example OpMode", group="Examples")

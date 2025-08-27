@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.teamcode.states.teleop.examples;
+package org.firstinspires.ftc.teamcode.states.teleop.examples;
 
 
-import org.firstinspires.ftc.teamcode.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.stateengine.State;
 
 public class LiftTeleop implements State {
 
@@ -18,6 +18,11 @@ public class LiftTeleop implements State {
 
         rh.exampleLiftH.setLiftPosition( rh.controls.exampleLiftSpeed() );
 
+    }
+
+    @Override
+    public void stop() {
+        // TODO.
     }
 
     @Override
