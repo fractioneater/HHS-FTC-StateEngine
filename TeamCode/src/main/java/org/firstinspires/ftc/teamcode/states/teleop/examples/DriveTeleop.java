@@ -1,38 +1,34 @@
 package org.firstinspires.ftc.teamcode.states.teleop.examples;
 
-
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.stateengine.State;
 
 public class DriveTeleop implements State {
 
-    RobotHardware rh = null;
+  RobotHardware rh = null;
 
-    @Override
-    public void init(RobotHardware rh) {
-        this.rh = rh;
-    }
+  @Override
+  public void init(RobotHardware rh) {
+    this.rh = rh;
+  }
 
-    @Override
-    public void run() {
+  @Override
+  public void run() {
+    double max = rh.controls.exampleDriveSpeed();
 
-        double max     =  rh.controls.exampleDriveSpeed();
+    // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+    double axial = rh.controls.driveY();
+    double lateral = rh.controls.driveX();
+    double yaw = rh.controls.driveR();
 
-        // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-        double axial   =  rh.controls.driveY();
-        double lateral =  rh.controls.driveX();
-        double yaw     =  rh.controls.driveR();
+    rh.exampleDriveH.drive(axial, lateral, yaw, max);
+  }
 
-        rh.exampleDriveH.drive(axial, lateral, yaw, max);
-    }
+  @Override
+  public void stop() {
+    // TODO.
+  }
 
-    @Override
-    public void stop() {
-        // TODO.
-    }
-
-    @Override
-    public boolean isDone() {
-        return false;
-    }
+  @Override
+  public boolean isDone() { return false; }
 }

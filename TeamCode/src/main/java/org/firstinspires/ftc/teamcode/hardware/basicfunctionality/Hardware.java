@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
 
 public interface Hardware {
-    void initialize();
-
-    void update();
-
-    void telemetry();
+  void initialize();
+  void update();
+  void telemetry();
 }

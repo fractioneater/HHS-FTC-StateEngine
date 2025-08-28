@@ -8,38 +8,36 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.stateengine.State;
 import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
 
-
-@TeleOp(name="TeleOp Test", group="Testing")
+@TeleOp(name = "TeleOp Test", group = "Testing")
 public class TeleOpTest extends LinearOpMode {
 
-    private ElapsedTime runtime = new ElapsedTime();
-    private RobotHardware rh = new RobotHardware(this);
+  private final ElapsedTime runtime = new ElapsedTime();
+  private final RobotHardware rh = new RobotHardware(this);
 
+  @Override
+  public void runOpMode() {
 
-    @Override
-    public void runOpMode() {
+    rh.initialize();
 
-        rh.initialize();
+    State driveTest = new DriveTeleop();
+    driveTest.init(rh);
 
-        State driveTest = new DriveTeleop();
-        driveTest.init(rh);
+    // Wait for the game to start (driver presses PLAY)
+    telemetry.addData("Status", "Initialized");
+    telemetry.update();
 
+    waitForStart();
+    runtime.reset();
 
-        // Wait for the game to start (driver presses PLAY)
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    // run until the end of the match (driver presses STOP)
+    while (opModeIsActive()) {
 
-        waitForStart();
-        runtime.reset();
+      if (!driveTest.isDone()) {
+        driveTest.run();
+      }
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-
-            if (!driveTest.isDone()) {
-                driveTest.run();
-            }
-
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
-        }
-    }}
+      telemetry.addData("Status", "Run Time: " + runtime.toString());
+      telemetry.update();
+    }
+  }
+}

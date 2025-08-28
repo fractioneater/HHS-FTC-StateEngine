@@ -10,47 +10,44 @@ import org.firstinspires.ftc.teamcode.states.teleop.examples.ClawTeleop;
 import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
 import org.firstinspires.ftc.teamcode.states.teleop.examples.LiftTeleop;
 
-
-@TeleOp(name="Example OpMode", group="Examples")
+@TeleOp(name = "Example OpMode", group = "Examples")
 public class ExampleOpMode extends LinearOpMode {
 
-    private RobotHardware rh = new RobotHardware(this);
+  private RobotHardware rh = new RobotHardware(this);
 
-    @Override
-    public void runOpMode() {
+  @Override
+  public void runOpMode() {
+    rh.initialize();
 
-        rh.initialize();
+    ParallelStack stack = new ParallelStack();
+    State[] states = {
+      new DriveTeleop(),
+      new ClawTeleop(),
+      new LiftTeleop(),
+    };
+    stack.createStack(states);
 
-        ParallelStack stack = new ParallelStack();
-        State[] states = {
-                new DriveTeleop(),
-                new ClawTeleop(),
-                new LiftTeleop(),
+    stack.init(rh);
 
-        };
-        stack.createStack(states);
+    rh.telemetry();
 
-        stack.init(rh);
+    // Wait for the game to start (driver presses PLAY)
+    telemetry.addData("Status", "Initialized");
+    telemetry.update();
 
-        rh.telemetry();
+    waitForStart();
+    rh.runtime.reset();
 
-        // Wait for the game to start (driver presses PLAY)
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    // run until the end of the match (driver presses STOP)
+    while (opModeIsActive()) {
+      stack.run();
+      rh.update();
 
-        waitForStart();
-        rh.runtime.reset();
+      telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+      rh.telemetry();
 
-            stack.run();
-            rh.update();
-
-            telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
-
-            rh.telemetry();
-
-            telemetry.update();
-        }
-    }}
+      telemetry.update();
+    }
+  }
+}

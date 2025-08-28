@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.ParallelStack;
+import org.firstinspires.ftc.teamcode.stateengine.SeriesStack;
 import org.firstinspires.ftc.teamcode.stateengine.State;
 
 import java.util.Locale;
 
-@TeleOp(name = "Sample Parallel OpMode", group = "Samples")
-public class SampleOpModeTeleop extends LinearOpMode {
+@Autonomous(name = "Sample Series OpMode", group = "Samples")
+public class SampleOpModeAuto extends LinearOpMode {
 
   private RobotHardware rh = new RobotHardware(this);
 
@@ -21,13 +21,13 @@ public class SampleOpModeTeleop extends LinearOpMode {
 
     rh.initialize();
 
-    ParallelStack stack = new ParallelStack();
+    SeriesStack stack = new SeriesStack();
     State[] states = {
-      /* TODO
-          Here you will setup all your teleop states in this list
-          The list is here for the opmode to loop through
-          ex) new SampleTeleop(), */ };
-
+      /*TODO
+         Here you will setup all your teleop states in this list
+         The list is here for the opmode to loop through
+         ex) new SampleTeleop(), */
+    };
     stack.createStack(states);
 
     stack.init(rh);
@@ -43,7 +43,6 @@ public class SampleOpModeTeleop extends LinearOpMode {
 
     // run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
-
       stack.run();
       rh.update();
 

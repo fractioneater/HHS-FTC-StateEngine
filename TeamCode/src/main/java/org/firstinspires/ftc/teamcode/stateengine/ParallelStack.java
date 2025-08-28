@@ -4,38 +4,34 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 
 public class ParallelStack extends StackList implements State {
 
-    private boolean isDone = false;
+  private boolean stackIsDone = false;
 
-    @Override
-    public void init(RobotHardware rh) {
-        super.initStack(rh);
+  @Override
+  public void init(RobotHardware rh) { super.initStack(rh); }
+
+  @Override
+  public void run() {
+    if (stackIsDone) return;
+    boolean done = true;
+
+    for (State state : getStack()) {
+      if (!state.isDone()) {
+        state.run();
+        done = false;
+      }
     }
 
-    @Override
-    public void run() {
-        boolean done = true;
-
-        for (State state : getStack()) {
-            if (!state.isDone()) {
-                state.run();
-                done = false;
-            }
-        }
-
-        // when all of the states are done,
-        // this stack will be done
-        if (done) {
-            isDone = true;
-        }
+    // when all of the states are done, this stack will be done
+    if (done) {
+      stackIsDone = true;
     }
+  }
 
-    @Override
-    public void stop() {
+  @Override
+  public void stop() {
+    stackIsDone = true;
+  }
 
-    }
-
-    @Override
-    public boolean isDone() {
-        return isDone;
-    }
+  @Override
+  public boolean isDone() { return stackIsDone; }
 }
