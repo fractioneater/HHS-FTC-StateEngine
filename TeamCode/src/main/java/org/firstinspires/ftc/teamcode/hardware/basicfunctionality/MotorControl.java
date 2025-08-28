@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 
@@ -22,14 +22,13 @@ public class MotorControl {
   private double decreasingSpeed = 1.0;
 
   // This initializes the MotorControl regardless of constructor type
-  private void construct(RobotHardware rh, String motorName, DcMotorSimple.Direction direction) {
+  private void construct(RobotHardware rh, String motorName, DcMotorEx.Direction direction) {
     this.rh = rh;
     motor = rh.op.hardwareMap.get(DcMotorEx.class, motorName);
     name = motorName;
 
     motor.setTargetPosition(0);
 
-    motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     motor.setDirection(direction);
   }
@@ -47,25 +46,46 @@ public class MotorControl {
 
   public void move() { motor.setPower(powerCurve()); }
 
-  public boolean isMoving() { return 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition()); }
+  public boolean isMoving() {
+    if (dumbMode) return 0.0 != motor.getPower();
+    else return 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition());
+  }
 
   public void setRange(int min, int max) {
     this.min = min;
     this.max = max;
   }
 
-  public void setPositions(int[] positions) {
-    this.positions = positions;
-  }
+  public void setPositions(int[] positions) { this.positions = positions; }
 
-  public void goToPresetPosition(int index) {
-    motor.setTargetPosition(positions[index]);
-  }
+  public void goToPresetPosition(int index) { motor.setTargetPosition(positions[index]); }
 
   public void clampTargetInRange() {
     int target = Math.min(max, motor.getTargetPosition());
     target = Math.max(min, target);
     motor.setTargetPosition(target);
+  }
+
+  // --------------------------------------------------------------------------------------------
+
+  private boolean dumbMode = true;
+
+  public boolean isDumbMode() { return dumbMode; }
+
+  public void disableEncoder() {
+    dumbMode = true;
+    motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+  }
+
+  public void enableEncoder() {
+    dumbMode = false;
+    motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    motor.setTargetPosition(motor.getCurrentPosition());
+  }
+
+  public void moveDumb(double power) {
+    motor.setPower(power);
   }
 
   // --------------------------------------------------------------------------------------------
@@ -88,23 +108,22 @@ public class MotorControl {
     this.decreasingSpeed = decreasingSpeed;
   }
 
-  public void setPowerControls(int clampingDistance, int brakingDistance, double stretch) {
-    this.clampingDistance = clampingDistance;
+  public void setPowerControls(int easingDistance, int brakingDistance, double stretch) {
+    this.easingDistance = easingDistance;
     this.brakingDistance = brakingDistance;
     this.stretch = stretch;
   }
 
   // variables only for the power curve method
-  private final int base = 2;             // Exponential base, shouldn't be changed
-  private int clampingDistance = 1000;    // Max speed is used above this distance
+  private int easingDistance = 1000;      // Max speed is used above this distance
   private int brakingDistance = 30;       // Brake below this distance from target
   private double stretch = 100;           // For a base of 2 this is the distance at which 50% speed will be used
   // Above this distance it will approach 100% speed
   // Below this distance it will approach 0% speed with a deadzone near 0 distance
 
-  // Please note that because this motor uses run to position we can treat all distances as positive
-  // And only note the direction for the speed to be used in each direction
   public double powerCurve() {
+    if (dumbMode) return 0.0;
+
     // find signed distance to target
     int distance = motor.getTargetPosition() - motor.getCurrentPosition();
 
@@ -122,14 +141,14 @@ public class MotorControl {
       return 0.0;
     }
 
-    // returns speed when above clamping distance
-    if (distance >= clampingDistance) {
+    // returns speed when above easing distance
+    if (distance >= easingDistance) {
       return speed;
     }
 
-    // when inside clamping distance
-    // use a decreasing speed for closer distances
-    double power = Math.pow(base, -stretch / distance);
+    // when inside easing distance, use a decreasing speed for closer distances
+    // the exponential base (2) shouldn't be changed
+    double power = Math.pow(2, -stretch / distance);
     return power * speed;
 
     // y = 2^( -s / x ) * v
@@ -143,7 +162,6 @@ public class MotorControl {
 
     rh.op.telemetry.addLine(String.format("    MIN is %d, MAX is %d", min, max));
     rh.op.telemetry.addLine(String.format("    Positions: CURRENT %d, TARGET %d", motor.getCurrentPosition(), motor.getTargetPosition()));
-    rh.op.telemetry.addLine(String.format("    %s moving%s", isMoving() ? "IS" : "NOT",
-      isMoving() ? String.format(" at speed %d", powerCurve()) : "")); // Gross.
+    rh.op.telemetry.addLine(String.format("    %s moving%s", isMoving() ? "IS" : "NOT", isMoving() ? String.format(" at speed %d", powerCurve()) : "")); // Gross.
   }
 }
