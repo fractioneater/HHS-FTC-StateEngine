@@ -21,14 +21,12 @@ public class SampleOpModeTeleop extends LinearOpMode {
 
     rh.initialize();
 
-    ParallelStack stack = new ParallelStack();
     State[] states = {
       /* TODO
           Here you will setup all your teleop states in this list
           The list is here for the opmode to loop through
           ex) new SampleTeleop(), */ };
-
-    stack.createStack(states);
+    ParallelStack stack = new ParallelStack(states);
 
     stack.init(rh);
 

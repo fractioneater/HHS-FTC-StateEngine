@@ -18,7 +18,6 @@ public class ExampleRoadRunnerAutonomous extends LinearOpMode {
   public void runOpMode() {
     rh.initialize();
 
-    SeriesStack stack = new SeriesStack();
     State[] states = {
       new SplinePathRR().createPath(
         new Pose2d[]{
@@ -35,7 +34,7 @@ public class ExampleRoadRunnerAutonomous extends LinearOpMode {
         }
       ),
     };
-    stack.createStack(states);
+    SeriesStack stack = new SeriesStack(states);
 
     stack.init(rh);
 

@@ -1,35 +1,30 @@
-package org.firstinspires.ftc.teamcode.stateengine;
+package org.firstinspires.ftc.teamcode.stateengine
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 
-public class SeriesStack extends StackList implements State {
+class SeriesStack(private val stack: Array<State>) : StackList(stack), State {
+  private var stackIndex = 0
 
-  private int stackIndex = 0;
+  override val isDone: Boolean
+    get() = stackIndex == stack.size // When this stack has finished all States, this stack will be done
 
-  @Override
-  public void init(RobotHardware rh) { super.initStack(rh); }
+  override fun init(rh: RobotHardware) {
+    super.initStack(rh)
+  }
 
-  @Override
-  public void run() {
-    // go to next State if current State is done
-    if (getStack()[stackIndex].isDone()) {
-      stackIndex++;
+  override fun run() {
+    // Go to next State if current State is done
+    if (stack[stackIndex].isDone) {
+      stackIndex++
     }
 
-    // run State
-    if (!isDone()) {
-      getStack()[stackIndex].run();
+    // Run State
+    if (!isDone) {
+      stack[stackIndex].run()
     }
   }
 
-  @Override
-  public void stop() {
-    stackIndex = getStack().length;
-  }
-
-  @Override
-  public boolean isDone() {
-    // when this stack has finished all States, this stack will be done
-    return stackIndex == getStack().length;
+  override fun stop() {
+    stackIndex = stack.size
   }
 }

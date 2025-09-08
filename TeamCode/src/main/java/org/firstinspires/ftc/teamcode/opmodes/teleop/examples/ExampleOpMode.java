@@ -19,13 +19,12 @@ public class ExampleOpMode extends LinearOpMode {
   public void runOpMode() {
     rh.initialize();
 
-    ParallelStack stack = new ParallelStack();
     State[] states = {
       new DriveTeleop(),
       new ClawTeleop(),
       new LiftTeleop(),
     };
-    stack.createStack(states);
+    ParallelStack stack = new ParallelStack(states);
 
     stack.init(rh);
 

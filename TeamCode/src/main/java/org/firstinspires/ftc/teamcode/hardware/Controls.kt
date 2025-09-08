@@ -1,129 +1,90 @@
-package org.firstinspires.ftc.teamcode.hardware;
+package org.firstinspires.ftc.teamcode.hardware
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Gamepad
+import com.qualcomm.robotcore.util.ElapsedTime
+import kotlin.math.pow
 
-public class Controls {
+class Controls(private val rh: RobotHardware) {
+  private val gp1: Gamepad? = rh.op.gamepad1
+  private val gp2: Gamepad? = rh.op.gamepad2
 
-  private RobotHardware rh;
-  private Gamepad gp1;
-  private Gamepad gp2;
-
-  private ElapsedTime runtime = new ElapsedTime();
-
-  public Controls(RobotHardware rh) { this.rh = rh; }
-
-  public void initialize() {
-    gp1 = rh.op.gamepad1;
-    gp2 = rh.op.gamepad2;
-  }
+  private val runtime = ElapsedTime()
 
   /**
-   * Scales inputs between -1 and 1 to values between -1 and 1 such that
-   * -1, 1, and 0 are deadzones, so that small changes to the input have
-   * little to no change in the output around the deadzones
-   * <p>
+   * Scales inputs between -1 and 1 to values of the same range such that -1, 1, and 0 are deadzones.
+   * Small changes to the input have little to no change in the output around the deadzones.
+   *
    * This uses the function:
    * y = 2.5x^3 - 1.5x^5
-   * Where y is output and x is input
    */
-  public double smoothInput(double gamepadInput) {
-    return (5.0 / 2.0) * Math.pow(gamepadInput, 3.0) - (3.0 / 2.0) * Math.pow(gamepadInput, 5.0);
+  fun smoothInput(gamepadInput: Double): Double {
+    return 2.5 * gamepadInput.pow(3.0) - 1.5 * gamepadInput.pow(5.0)
   }
 
-  //TODO: This is where you will place code for accessing the gamepad inputs
-
+  // TODO: This is where you will place code for accessing the gamepad inputs
   /**
    * All Controls functions need to test if the controller they are accessing exists
    * If the controller doesn't exist then return a default value
    * usually false for booleans and 0 for doubles
    */
-
-  public boolean exampleDiscreteInput() {
-    if (gp1 == null) {
-      return false;
-    }
-    return gp1.a;
+  fun exampleDiscreteInput(): Boolean {
+    return gp1?.a ?: false
   }
 
-  public double exampleContinuousInput() {
-    if (gp2 == null) {
-      return 0;
-    }
-    return gp2.right_trigger;
+  fun exampleContinuousInput(): Double {
+    return (gp1?.right_trigger ?: 0.0).toDouble()
   }
 
-  public double exampleSmoothedContinuousInput() {
-    if (gp2 == null) {
-      return 0;
-    }
-    return smoothInput(gp2.left_trigger);
+  fun exampleSmoothedContinuousInput(): Double {
+    return if (gp1 == null) 0.0
+    else smoothInput(gp1.left_trigger.toDouble())
   }
 
   // Example forwards movement control
-  public double driveY() {
-    if (gp1 == null) {
-      return 0;
-    }
-    return smoothInput(gp1.left_stick_y);
+  fun driveY(): Double {
+    return if (gp1 == null) 0.0
+    else smoothInput(gp1.left_stick_y.toDouble())
   }
 
   // Example sideways movement control
-  public double driveX() {
-    if (gp1 == null) {
-      return 0;
-    }
-    return smoothInput(gp1.left_stick_x);
+  fun driveX(): Double {
+    return if (gp1 == null) 0.0
+    else smoothInput(gp1.left_stick_x.toDouble())
   }
 
   // Example rotation movement control
-  public double driveR() {
-    if (gp1 == null) {
-      return 0;
-    }
-    return smoothInput(gp1.right_stick_x);
+  fun driveR(): Double {
+    return if (gp1 == null) 0.0
+    else smoothInput(gp1.right_stick_x.toDouble())
   }
 
   // Example movement speed control
-  public double exampleDriveSpeed() {
-    if (gp1 == null) {
-      return 0;
-    }
-    return 0.5 + (0.25 * smoothInput(gp1.right_trigger - gp1.left_trigger));
+  fun exampleDriveSpeed(): Double {
+    return if (gp1 == null) 0.0
+    else 0.5 + (0.25 * smoothInput((gp1.right_trigger - gp1.left_trigger).toDouble()))
   }
 
   // Example motor speed control (designed for lift)
   // Turns doubles into ints because motor speeds have to be ints
-  public int exampleLiftSpeed() {
-    if (gp2 == null) {
-      return 0;
-    }
-    return (int) (10.0 * smoothInput(gp2.right_trigger - gp2.left_trigger));
+  fun exampleLiftSpeed(): Int {
+    return if (gp2 == null) 0
+    else (10.0 * smoothInput((gp2.right_trigger - gp2.left_trigger).toDouble())).toInt()
     // right is INCREASE
     // left is DECREASE
   }
 
   // Example lift adjustment
-  public int exampleLiftAdjust() {
-    if (gp2 == null) {
-      return 0;
-    }
+  fun exampleLiftAdjust(): Int {
+    if (gp2 == null) return 0
 
-    int adjust = 0;
-    if (gp2.dpad_up) {
-      adjust++;
-    }
-    if (gp2.dpad_down) {
-      adjust--;
-    }
-    return (10 * (adjust));
+    var adjust = 0
+    if (gp2.dpad_up) adjust++
+    if (gp2.dpad_down) adjust--
+    return (10 * (adjust))
   }
 
   // Example claw button
-  public boolean clawButton() {
-    if (gp1 == null) {
-      return false;
-    }
-    return gp1.b;
+  fun clawButton(): Boolean {
+    return gp1?.b ?: false
   }
 }

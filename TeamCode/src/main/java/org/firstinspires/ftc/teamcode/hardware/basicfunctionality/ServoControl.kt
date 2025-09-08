@@ -1,91 +1,62 @@
-package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
+package org.firstinspires.ftc.teamcode.hardware.basicfunctionality
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import kotlin.math.abs
+import kotlin.math.withSign
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+// ServoControl is designed to emulate an encoder for a servo and provide the ability to easily move to preset positions
+class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double = 0.15) {
+  private var servo: Servo = rh.op.hardwareMap.get(Servo::class.java, name)
 
-/// ServoControl is designed to emulate an encoder for a servo
-/// and provide the ability to easily move to preset positions
-public class ServoControl {
+  private var positions: DoubleArray = doubleArrayOf()
+  var positionsIndex: Int = -1
 
-  private RobotHardware rh = null;
-  private Servo servo = null;
+  var currentPosition: Double = 0.0
+  var targetPosition: Double = 0.0
 
-  private String name = null;
+  constructor(rh: RobotHardware, name: String) : this(rh, name, 0.15 /* TODO: Step size */)
 
-  private double[] positions = null;
-  private int positionsIndex = -1;
-
-  private double position = 0.0;
-  private double targetPosition = 0.0;
-
-  private double stepSize = 0.15;   // This is used to simulate using an encoder for a servo so that we can know if the servo is still turning
-  //TODO:
-  // Tune stepSize so that for your servo: if you made stepSize any smaller your servo would turn slower than normal
-  // You want your servo to move exactly by the stepSize each hardware update cycle without stopping
-
-  private void construct(RobotHardware rh, String servoName) {
-    this.rh = rh;
-    servo = rh.op.hardwareMap.get(Servo.class, servoName);
-    name = servoName;
-  }
-
-  public ServoControl(RobotHardware rh, String servoName) {
-    construct(rh, servoName);
-  }
-
-  public ServoControl(RobotHardware rh, String servoName, double stepSize) {
-    construct(rh, servoName);
-    this.stepSize = stepSize;
-  }
-
-  public void move() {
-    if (Math.abs(targetPosition - position) <= stepSize) {
-
-      // if distance to target is smaller than the step size, set position directly to target
-      position = targetPosition;
+  fun move() {
+    if (abs(targetPosition - this.currentPosition) <= stepSize) {
+      // If distance to target is smaller than the step size, set position directly to target
+      this.currentPosition = targetPosition
     } else {
-
-      // adjust the position by the step size, in the direction of the target
-      position += Math.copySign(stepSize, targetPosition - position);
+      // Adjust the position by the step size, in the direction of the target
+      this.currentPosition += stepSize.withSign(targetPosition - this.currentPosition)
     }
-    servo.setPosition(position);
+    servo.setPosition(this.currentPosition)
   }
 
-  public boolean isMoving() { return 0.0 != (getCurrentPosition() - getTargetPosition()); }
+  val isMoving: Boolean
+    get() = 0.0 != (this.currentPosition - this.targetPosition)
 
-  public void setPositions(double[] positions) { // should ONLY be called in initialization
-    this.positions = positions;
+  fun setPositions(positions: DoubleArray) { // Should ONLY be called in initialization
+    this.positions = positions
 
-    servo.setPosition(positions[0]);
-    positionsIndex = 0;
-    position = positions[0];
-    targetPosition = positions[0];
+    servo.setPosition(positions[0])
+    positionsIndex = 0
+    this.currentPosition = positions[0]
+    targetPosition = positions[0]
   }
 
-  public double getCurrentPosition() { return position; }
-
-  public double getTargetPosition() { return targetPosition; }
-
-  public int getPositionsIndex() { return positionsIndex; }
-
-  public void goToPresetPosition(int index) {
-    goToPosition(positions[index]);
-    positionsIndex = index;
+  fun goToPresetPosition(index: Int) {
+    goToPosition(positions[index])
+    positionsIndex = index
   }
 
-  public void goToPosition(double newTargetPosition) {
-    targetPosition = newTargetPosition;
-    positionsIndex = -1;
+  fun goToPosition(newTargetPosition: Double) {
+    targetPosition = newTargetPosition
+    positionsIndex = -1
   }
 
-  public void telemetry() {
-    rh.op.telemetry.addLine();
+  fun telemetry() {
+    rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine(String.format("Servo %s:", name));
+    rh.op.telemetry.addLine(String.format("servo %s", name))
 
-    rh.op.telemetry.addLine("MIN is 0, MAX is 1");
-    rh.op.telemetry.addLine(String.format("At position %.3f, target is %.3f", getCurrentPosition(), getTargetPosition()));
-    rh.op.telemetry.addLine(String.format("Position #%d, %s moving", positionsIndex, isMoving() ? "IS" : "NOT"));
+    rh.op.telemetry.addLine("    MIN is 0, MAX is 1")
+    rh.op.telemetry.addLine("    at position $currentPosition, target is $targetPosition")
+    rh.op.telemetry.addLine("    position #$positionsIndex, ${if (this.isMoving) "IS" else "NOT"} moving")
   }
 }

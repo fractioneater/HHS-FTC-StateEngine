@@ -1,167 +1,163 @@
-package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
+package org.firstinspires.ftc.teamcode.hardware.basicfunctionality
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotor.RunMode
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior
+import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+class MotorControl(val rh: RobotHardware, val name: String, val direction: Direction, val zeroPowerBehavior: ZeroPowerBehavior) {
+  private var motor: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, name)
 
-public class MotorControl {
+  private var min = 0
+  private var max = 0
 
-  private RobotHardware rh;
-  private DcMotorEx motor;
-  private String name;
-
-  private int min = 0;
-  private int max = 0;
-
-  private int[] positions = null;
+  private var positions: IntArray = intArrayOf()
 
   // These separate increasing and decreasing speeds for cases such as
   // going slower down so that gravity doesn't make a lift system damage the robot
-  private double increasingSpeed = 1.0;
-  private double decreasingSpeed = 1.0;
+  private var increasingSpeed = 1.0
+  private var decreasingSpeed = 1.0
 
-  // This initializes the MotorControl regardless of constructor type
-  private void construct(RobotHardware rh, String motorName, DcMotorEx.Direction direction) {
-    this.rh = rh;
-    motor = rh.op.hardwareMap.get(DcMotorEx.class, motorName);
-    name = motorName;
+  init {
+    motor.setTargetPosition(0)
 
-    motor.setTargetPosition(0);
-
-    motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-    motor.setDirection(direction);
+    motor.setMode(RunMode.RUN_USING_ENCODER)
+    motor.setDirection(direction)
+    motor.setZeroPowerBehavior(zeroPowerBehavior)
   }
 
   // Default ZeroPowerBehavior is BRAKE
-  public MotorControl(RobotHardware rh, String motorName, DcMotorEx.Direction direction) {
-    construct(rh, motorName, direction);
-    motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+  constructor(rh: RobotHardware, name: String, direction: Direction) : this(rh, name, direction, ZeroPowerBehavior.BRAKE)
+
+  fun move() {
+    motor.setPower(powerCurve())
   }
 
-  public MotorControl(RobotHardware rh, String motorName, DcMotorEx.Direction direction, DcMotorEx.ZeroPowerBehavior zeroPowerBehavior) {
-    construct(rh, motorName, direction);
-    motor.setZeroPowerBehavior(zeroPowerBehavior);
+  val isMoving: Boolean
+    get() {
+      return if (this.isDumbMode) 0.0 != motor.getPower()
+      else 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition()).toDouble()
+    }
+
+  fun setRange(min: Int, max: Int) {
+    this.min = min
+    this.max = max
   }
 
-  public void move() { motor.setPower(powerCurve()); }
-
-  public boolean isMoving() {
-    if (dumbMode) return 0.0 != motor.getPower();
-    else return 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition());
+  fun setPositions(positions: IntArray) {
+    this.positions = positions
   }
 
-  public void setRange(int min, int max) {
-    this.min = min;
-    this.max = max;
+  fun goToPresetPosition(index: Int) {
+    motor.setTargetPosition(positions[index])
   }
 
-  public void setPositions(int[] positions) { this.positions = positions; }
-
-  public void goToPresetPosition(int index) { motor.setTargetPosition(positions[index]); }
-
-  public void clampTargetInRange() {
-    int target = Math.min(max, motor.getTargetPosition());
-    target = Math.max(min, target);
-    motor.setTargetPosition(target);
-  }
-
-  // --------------------------------------------------------------------------------------------
-
-  private boolean dumbMode = true;
-
-  public boolean isDumbMode() { return dumbMode; }
-
-  public void disableEncoder() {
-    dumbMode = true;
-    motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-  }
-
-  public void enableEncoder() {
-    dumbMode = false;
-    motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    motor.setTargetPosition(motor.getCurrentPosition());
-  }
-
-  public void moveDumb(double power) {
-    motor.setPower(power);
+  fun clampTargetInRange() {
+    var target = min(max, motor.getTargetPosition())
+    target = max(min, target)
+    motor.setTargetPosition(target)
   }
 
   // --------------------------------------------------------------------------------------------
+  var isDumbMode: Boolean = true
+    private set
 
-  public void goToPosition(int targetPosition) { motor.setTargetPosition(targetPosition); }
+  fun disableEncoder() {
+    this.isDumbMode = true
+    motor.setMode(RunMode.RUN_WITHOUT_ENCODER)
+  }
 
-  public int getCurrentPosition() { return motor.getCurrentPosition(); }
+  fun enableEncoder() {
+    this.isDumbMode = false
+    motor.setMode(RunMode.STOP_AND_RESET_ENCODER)
+    motor.setMode(RunMode.RUN_USING_ENCODER)
+    motor.setTargetPosition(motor.getCurrentPosition())
+  }
 
-  public int getTargetPosition() { return motor.getTargetPosition(); }
+  fun moveDumb(power: Double) {
+    motor.setPower(power)
+  }
 
   // --------------------------------------------------------------------------------------------
-
-  public void setSpeedControls(double speed) {
-    this.increasingSpeed = speed;
-    this.decreasingSpeed = speed;
+  fun goToPosition(targetPosition: Int) {
+    motor.setTargetPosition(targetPosition)
   }
 
-  public void setSpeedControls(double increasingSpeed, double decreasingSpeed) {
-    this.increasingSpeed = increasingSpeed;
-    this.decreasingSpeed = decreasingSpeed;
+  val currentPosition: Int
+    get() = motor.getCurrentPosition()
+
+  val targetPosition: Int
+    get() = motor.getTargetPosition()
+
+  // --------------------------------------------------------------------------------------------
+  fun setSpeedControls(speed: Double) {
+    this.increasingSpeed = speed
+    this.decreasingSpeed = speed
   }
 
-  public void setPowerControls(int easingDistance, int brakingDistance, double stretch) {
-    this.easingDistance = easingDistance;
-    this.brakingDistance = brakingDistance;
-    this.stretch = stretch;
+  fun setSpeedControls(increasingSpeed: Double, decreasingSpeed: Double) {
+    this.increasingSpeed = increasingSpeed
+    this.decreasingSpeed = decreasingSpeed
   }
 
-  // variables only for the power curve method
-  private int easingDistance = 1000;      // Max speed is used above this distance
-  private int brakingDistance = 30;       // Brake below this distance from target
-  private double stretch = 100;           // For a base of 2 this is the distance at which 50% speed will be used
+  fun setPowerControls(easingDistance: Int, brakingDistance: Int, stretch: Double) {
+    this.easingDistance = easingDistance
+    this.brakingDistance = brakingDistance
+    this.stretch = stretch
+  }
+
+  // Variables only for the power curve method
+  private var easingDistance = 1000 // Max speed is used above this distance
+  private var brakingDistance = 30 // Brake below this distance from target
+  private var stretch = 100.0 // For a base of 2 this is the distance at which 50% speed will be used
+
   // Above this distance it will approach 100% speed
   // Below this distance it will approach 0% speed with a deadzone near 0 distance
+  fun powerCurve(): Double {
+    if (this.isDumbMode) return 0.0
 
-  public double powerCurve() {
-    if (dumbMode) return 0.0;
+    // Find signed distance to target
+    var distance = motor.getTargetPosition() - motor.getCurrentPosition()
 
-    // find signed distance to target
-    int distance = motor.getTargetPosition() - motor.getCurrentPosition();
-
-    // set the correct speed for the direction of motion
-    double speed = increasingSpeed;
+    // Set the correct speed for the direction of motion
+    var speed = increasingSpeed
     if (distance < 0) {
-      speed = decreasingSpeed;
+      speed = decreasingSpeed
     }
 
-    // make the distance positive
-    distance = Math.abs(distance);
+    // Make the distance positive
+    distance = abs(distance)
 
-    // returns 0.0 when within braking distance
+    // Returns 0.0 when within braking distance
     if (distance <= brakingDistance) {
-      return 0.0;
+      return 0.0
     }
 
-    // returns speed when above easing distance
+    // Returns speed when above easing distance
     if (distance >= easingDistance) {
-      return speed;
+      return speed
     }
 
-    // when inside easing distance, use a decreasing speed for closer distances
-    // the exponential base (2) shouldn't be changed
-    double power = Math.pow(2, -stretch / distance);
-    return power * speed;
+    // When inside easing distance, use a decreasing speed for closer distances
+    // The exponential base (2) shouldn't be changed
+    val power = 2.0.pow(-stretch / distance)
+    return power * speed
 
     // y = 2^( -s / x ) * v
-    // where y is power, x is distance to target (+), s is the stretch factor, and v is the speed
+    // Where y is power, x is distance to target (+), s is the stretch factor, and v is the speed
   }
 
-  public void telemetry() {
-    rh.op.telemetry.addLine();
+  fun telemetry() {
+    rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine(String.format("Motor %s:", name));
-
-    rh.op.telemetry.addLine(String.format("    MIN is %d, MAX is %d", min, max));
-    rh.op.telemetry.addLine(String.format("    Positions: CURRENT %d, TARGET %d", motor.getCurrentPosition(), motor.getTargetPosition()));
-    rh.op.telemetry.addLine(String.format("    %s moving%s", isMoving() ? "IS" : "NOT", isMoving() ? String.format(" at speed %d", powerCurve()) : "")); // Gross.
+    rh.op.telemetry.addLine("motor $name")
+    rh.op.telemetry.addLine("    MIN is $min, MAX is $max")
+    rh.op.telemetry.addLine("    positions: CURRENT ${motor.getCurrentPosition()}, TARGET ${motor.getTargetPosition()}")
+    rh.op.telemetry.addLine("    ${if (this.isMoving) "IS" else "NOT"} moving${if (this.isMoving) " at speed ${powerCurve()}" else ""}")
   }
 }

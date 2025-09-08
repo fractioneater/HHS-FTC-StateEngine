@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.stateengine;
+package org.firstinspires.ftc.teamcode.stateengine
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 
-public interface State {
-  void init(RobotHardware rh);
-  void run();
-  void stop();
-  boolean isDone();
+interface State {
+  fun init(rh: RobotHardware)
+  fun run()
+  fun stop()
+  val isDone: Boolean
 }

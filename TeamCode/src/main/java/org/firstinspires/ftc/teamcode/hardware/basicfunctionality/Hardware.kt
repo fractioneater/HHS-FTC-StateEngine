@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.hardware.basicfunctionality;
+package org.firstinspires.ftc.teamcode.hardware.basicfunctionality
 
-public interface Hardware {
-  void initialize();
-  void update();
-  void telemetry();
+interface Hardware {
+  fun initialize()
+  fun update()
+  fun telemetry()
 }

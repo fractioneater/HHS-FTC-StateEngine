@@ -1,45 +1,40 @@
-package org.firstinspires.ftc.teamcode.stateengine.tests;
+package org.firstinspires.ftc.teamcode.stateengine.tests
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.util.ElapsedTime
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.SeriesStack
+import org.firstinspires.ftc.teamcode.stateengine.State
+import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.SeriesStack;
-import org.firstinspires.ftc.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
-
+@Suppress("unused")
 @TeleOp(name = "Series Test", group = "Testing")
-public class TeleOpSeriesTest extends LinearOpMode {
+class TeleOpSeriesTest : LinearOpMode() {
+  private val runtime = ElapsedTime()
+  private val rh = RobotHardware(this)
 
-  private ElapsedTime runtime = new ElapsedTime();
-  private RobotHardware rh = new RobotHardware(this);
+  override fun runOpMode() {
+    rh.initialize()
 
-  @Override
-  public void runOpMode() {
+    val states = arrayOf<State>(DriveTeleop())
+    val stack = SeriesStack(states)
 
-    rh.initialize();
-
-    SeriesStack stack = new SeriesStack();
-    State[] states = { new DriveTeleop(), };
-    stack.createStack(states);
-
-    stack.init(rh);
+    stack.init(rh)
 
     // Wait for the game to start (driver presses PLAY)
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
+    telemetry.addLine("initialized")
+    telemetry.update()
 
-    waitForStart();
-    runtime.reset();
+    waitForStart()
+    runtime.reset()
 
     // run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
+      stack.run()
 
-      stack.run();
-
-      telemetry.addData("Status", "Run Time: " + runtime.toString());
-      telemetry.update();
+      telemetry.addLine("runtime: $runtime")
+      telemetry.update()
     }
   }
 }

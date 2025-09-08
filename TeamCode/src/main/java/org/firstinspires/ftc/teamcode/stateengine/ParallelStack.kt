@@ -1,37 +1,32 @@
-package org.firstinspires.ftc.teamcode.stateengine;
+package org.firstinspires.ftc.teamcode.stateengine
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 
-public class ParallelStack extends StackList implements State {
+class ParallelStack(private val stack: Array<State>) : StackList(stack), State {
+  override var isDone: Boolean = false
 
-  private boolean stackIsDone = false;
+  override fun init(rh: RobotHardware) {
+    super.initStack(rh)
+  }
 
-  @Override
-  public void init(RobotHardware rh) { super.initStack(rh); }
+  override fun run() {
+    if (this.isDone) return
+    var done = true
 
-  @Override
-  public void run() {
-    if (stackIsDone) return;
-    boolean done = true;
-
-    for (State state : getStack()) {
-      if (!state.isDone()) {
-        state.run();
-        done = false;
+    for (state in stack) {
+      if (!state.isDone) {
+        state.run()
+        done = false
       }
     }
 
-    // when all of the states are done, this stack will be done
+    // When all of the states are done, this stack will be done
     if (done) {
-      stackIsDone = true;
+      this.isDone = true
     }
   }
 
-  @Override
-  public void stop() {
-    stackIsDone = true;
+  override fun stop() {
+    this.isDone = true
   }
-
-  @Override
-  public boolean isDone() { return stackIsDone; }
 }

@@ -5,14 +5,26 @@
  */
 
 buildscript {
+    ext {
+        kotlin_version = '2.2.0'
+    }
     repositories {
         mavenCentral()
         google()
     }
     dependencies {
         // Note for FTC Teams: Do not modify this yourself.
-        classpath 'com.android.tools.build:gradle:8.12.1'
+        classpath 'com.android.tools.build:gradle:8.12.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+kotlin {
+    jvmToolchain(8)
 }
 
 // This is now required because aapt2 has to be downloaded from the
@@ -26,4 +38,8 @@ allprojects {
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }

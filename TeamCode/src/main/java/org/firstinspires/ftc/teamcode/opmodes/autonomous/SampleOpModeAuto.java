@@ -21,14 +21,13 @@ public class SampleOpModeAuto extends LinearOpMode {
 
     rh.initialize();
 
-    SeriesStack stack = new SeriesStack();
     State[] states = {
       /*TODO
          Here you will setup all your teleop states in this list
          The list is here for the opmode to loop through
          ex) new SampleTeleop(), */
     };
-    stack.createStack(states);
+    SeriesStack stack = new SeriesStack(states);
 
     stack.init(rh);
 
