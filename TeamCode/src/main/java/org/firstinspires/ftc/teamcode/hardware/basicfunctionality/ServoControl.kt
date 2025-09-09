@@ -5,7 +5,18 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import kotlin.math.abs
 import kotlin.math.withSign
 
-// ServoControl is designed to emulate an encoder for a servo and provide the ability to easily move to preset positions
+/**
+ * Class for controlling a servo motor.
+ *
+ * This class provides methods for setting the servo's position, moving it to a target position,
+ * and checking if it is currently moving. It also allows for defining a set of preset positions
+ * that the servo can be moved to.
+ *
+ * @property rh The [RobotHardware] instance.
+ * @property name The name of the servo in the robot's configuration.
+ * @property stepSize (Optional) The amount the servo moves in each step when moving to a target position.
+ *                    Defaults to 0.15.
+ */
 class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double = 0.15) {
   private var servo: Servo = rh.op.hardwareMap.get(Servo::class.java, name)
 
@@ -51,10 +62,7 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   }
 
   fun telemetry() {
-    rh.op.telemetry.addLine()
-
-    rh.op.telemetry.addLine(String.format("servo %s", name))
-
+    rh.op.telemetry.addLine("\nservo '$name'")
     rh.op.telemetry.addLine("    MIN is 0, MAX is 1")
     rh.op.telemetry.addLine("    at position $currentPosition, target is $targetPosition")
     rh.op.telemetry.addLine("    position #$positionsIndex, ${if (this.isMoving) "IS" else "NOT"} moving")

@@ -10,6 +10,25 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
+/**
+ * A motor, generally one designed to operate with encoders. For example, a lift.
+ *
+ * This class provides functionalities beyond the basic `DcMotorEx` interface,
+ * including:
+ * - Setting operational range (min/max encoder positions).
+ * - Defining preset positions for quick navigation.
+ * - Clamping target positions within the defined range.
+ * - Toggling between "dumb" (direct power control) and encoder-based movement.
+ * - Implementing a power curve for smoother acceleration and deceleration.
+ * - Separate speed controls for increasing and decreasing movements (e.g., for lifts).
+ * - Telemetry output for debugging and monitoring.
+ *
+ * @property rh An instance of [RobotHardware] providing access to the op mode and hardware map.
+ * @property name The name of the motor as set in the hardware configuration on the driver hub.
+ * @property direction The [Direction] of the motor (FORWARD or REVERSE).
+ * @property zeroPowerBehavior (Optional) The [ZeroPowerBehavior] of the motor (BRAKE or FLOAT) when power is zero.
+ *                             Defaults to BRAKE.
+ */
 class MotorControl(val rh: RobotHardware, val name: String, val direction: Direction, val zeroPowerBehavior: ZeroPowerBehavior) {
   private var motor: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, name)
 
@@ -153,9 +172,7 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   }
 
   fun telemetry() {
-    rh.op.telemetry.addLine()
-
-    rh.op.telemetry.addLine("motor $name")
+    rh.op.telemetry.addLine("\nmotor '$name'")
     rh.op.telemetry.addLine("    MIN is $min, MAX is $max")
     rh.op.telemetry.addLine("    positions: CURRENT ${motor.getCurrentPosition()}, TARGET ${motor.getTargetPosition()}")
     rh.op.telemetry.addLine("    ${if (this.isMoving) "IS" else "NOT"} moving${if (this.isMoving) " at speed ${powerCurve()}" else ""}")

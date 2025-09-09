@@ -1,73 +1,57 @@
-package org.firstinspires.ftc.teamcode.hardware.examples;
+package org.firstinspires.ftc.teamcode.hardware.examples
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotorSimple.*
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.MotorControl
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.MotorControl;
+class ExampleLiftHardware(private val rh: RobotHardware) : Hardware {
+  private var leftLift: MotorControl = MotorControl(rh, "leftLift", Direction.FORWARD)
+  private var rightLift: MotorControl = MotorControl(rh, "rightLift", Direction.REVERSE)
 
-public class ExampleLiftHardware implements Hardware {
+  override fun initialize() {
+    // Set motor range
+    leftLift.setRange(0, 1000)
+    rightLift.setRange(0, 1000)
 
-  private RobotHardware rh = null;
+    // Init motor positions
+    val positions = intArrayOf(0, 200, 400, 600, 800, 1000) // for autonomous
+    leftLift.setPositions(positions)
+    rightLift.setPositions(positions)
 
-  // Declare motors
-  private ElapsedTime runtime = new ElapsedTime();
-  private MotorControl leftLift = null;
-  private MotorControl rightLift = null;
-
-  public ExampleLiftHardware(RobotHardware rh) { this.rh = rh; }
-
-  public void initialize() {
-
-    // init motors
-    leftLift = new MotorControl(rh, "leftLift", DcMotor.Direction.FORWARD);
-    rightLift = new MotorControl(rh, "rightLift", DcMotor.Direction.REVERSE);
-
-    // init motor range
-    leftLift.setRange(0, 1000);
-    rightLift.setRange(0, 1000);
-
-    // init motor positions
-    int[] positions = { 0, 200, 400, 600, 800, 1000 }; // for autonomous
-    leftLift.setPositions(positions);
-    rightLift.setPositions(positions);
-
-    // set speeds
-    double increasingSpeed = 0.5;     // maximum speed for lift motors in + click direction
-    double decreasingSpeed = 0.3;     // maximum speed for lift motors in - click direction
-    leftLift.setSpeedControls(increasingSpeed, decreasingSpeed);
-    rightLift.setSpeedControls(increasingSpeed, decreasingSpeed);
+    // Set speeds
+    val increasingSpeed = 0.5 // Maximum speed for lift motors in + click direction
+    val decreasingSpeed = 0.3 // Maximum speed for lift motors in - click direction
+    leftLift.setSpeedControls(increasingSpeed, decreasingSpeed)
+    rightLift.setSpeedControls(increasingSpeed, decreasingSpeed)
   }
 
-  public void update() {
-    leftLift.clampTargetInRange();
-    rightLift.clampTargetInRange();
+  override fun update() {
+    leftLift.clampTargetInRange()
+    rightLift.clampTargetInRange()
 
-    leftLift.move();
-    rightLift.move();
+    leftLift.move()
+    rightLift.move()
   }
 
-  public void setLiftPosition(int position) {
-    leftLift.goToPosition(position);
-    rightLift.goToPosition(position);
+  fun setLiftPosition(position: Int) {
+    leftLift.goToPosition(position)
+    rightLift.goToPosition(position)
   }
 
-  public void adjustPosition(int adjustment) {
-    leftLift.goToPosition(leftLift.getTargetPosition() + adjustment);
-    rightLift.goToPosition(rightLift.getTargetPosition() + adjustment);
+  fun adjustPosition(adjustment: Int) {
+    leftLift.goToPosition(leftLift.targetPosition + adjustment)
+    rightLift.goToPosition(rightLift.targetPosition + adjustment)
   }
 
-  public int getHeight() {
-    return leftLift.getTargetPosition();
-  }
+  val height: Int
+    get() = leftLift.targetPosition
 
-  public void telemetry() {
-    rh.op.telemetry.addLine("Pixel Lift Hardware:");
+  override fun telemetry() {
+    rh.op.telemetry.addLine("lift\n----")
+    rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine();
-
-    leftLift.telemetry();
-    rightLift.telemetry();
+    leftLift.telemetry()
+    rightLift.telemetry()
   }
 }

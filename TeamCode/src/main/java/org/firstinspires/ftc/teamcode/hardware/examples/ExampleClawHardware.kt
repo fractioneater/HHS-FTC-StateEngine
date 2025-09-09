@@ -1,45 +1,37 @@
-package org.firstinspires.ftc.teamcode.hardware.examples;
+package org.firstinspires.ftc.teamcode.hardware.examples
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl
 
-public class ExampleClawHardware implements Hardware {
+class ExampleClawHardware(private val rh: RobotHardware) : Hardware {
+  private var clawServo: ServoControl = ServoControl(rh, "claw")
 
-  // Declare
-  private RobotHardware rh = null;
-
-  // Declare motors
-  private ServoControl clawServo = null;
-
-  public ExampleClawHardware(RobotHardware rh) { this.rh = rh; }
-
-  public void initialize() {
-    // init servo
-    clawServo = new ServoControl(rh, "Claw");
-
-    clawServo.setPositions(new double[]{ 1.0, 0.0 });
+  override fun initialize() {
+    clawServo.setPositions(doubleArrayOf(1.0, 0.0))
   }
 
-  public void update() { clawServo.move(); }
+  override fun update() {
+    clawServo.move()
+  }
 
-  public boolean clawMoving() { return clawServo.isMoving(); }
+  fun clawMoving(): Boolean {
+    return clawServo.isMoving
+  }
 
-  public void setClaw(boolean closed) {
+  fun setClaw(closed: Boolean) {
     if (closed) {
-      clawServo.goToPosition(0);
+      clawServo.goToPosition(0.0)
     } else {
-      clawServo.goToPosition(1);
+      clawServo.goToPosition(1.0)
     }
   }
 
-  public boolean isClawClosed() { return clawServo.getPositionsIndex() == 0; }
+  val isClawClosed: Boolean
+    get() = clawServo.positionsIndex == 0
 
-  public void telemetry() {
-    rh.op.telemetry.addLine("Pixel Claw Hardware:");
-
-    rh.op.telemetry.addLine();
-
-    clawServo.telemetry();
+  override fun telemetry() {
+    rh.op.telemetry.addLine("claw\n----")
+    clawServo.telemetry()
   }
 }

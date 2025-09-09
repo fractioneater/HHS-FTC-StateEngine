@@ -1,118 +1,93 @@
-package org.firstinspires.ftc.teamcode.hardware.examples;
+package org.firstinspires.ftc.teamcode.hardware.examples
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
+import kotlin.math.abs
+import kotlin.math.max
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware;
+class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
+  private var leftFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
+  private var leftBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
+  private var rightFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
+  private var rightBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
 
-public class ExampleDriveHardware implements Hardware {
+  // Directional inputs for telemetry
+  private var axial = 0.0
+  private var lateral = 0.0
+  private var yaw = 0.0
+  private var maximum = 1.0
 
-  private RobotHardware rh;
-
-  // Declare motors
-  private DcMotor leftFrontDrive = null;
-  private DcMotor leftBackDrive = null;
-  private DcMotor rightFrontDrive = null;
-  private DcMotor rightBackDrive = null;
-
-  // directional inputs for telemetry
-  private double axial = 0.0;
-  private double lateral = 0.0;
-  private double yaw = 0.0;
-  private double maximum = 1.0;
-
-  public ExampleDriveHardware(RobotHardware rh) { this.rh = rh; }
-
-  public void initialize() {
-    // init motors
-    leftFrontDrive = rh.op.hardwareMap.get(DcMotor.class, "lfD");
-    leftBackDrive = rh.op.hardwareMap.get(DcMotor.class, "lbD");
-    rightFrontDrive = rh.op.hardwareMap.get(DcMotor.class, "rfD");
-    rightBackDrive = rh.op.hardwareMap.get(DcMotor.class, "rbD");
-
-    // set motor directions
-    leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-    leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-    rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-    rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+  override fun initialize() {
+    leftFrontDrive.setDirection(Direction.REVERSE)
+    leftBackDrive.setDirection(Direction.REVERSE)
+    rightFrontDrive.setDirection(Direction.FORWARD)
+    rightBackDrive.setDirection(Direction.FORWARD)
   }
 
-  public void setPower(double powerLF, double powerRF, double powerLB, double powerRB) {
-    leftFrontDrive.setPower(powerLF);
-    rightFrontDrive.setPower(powerRF);
-    leftBackDrive.setPower(powerLB);
-    rightBackDrive.setPower(powerRB);
+  fun setPower(powerLF: Double, powerRF: Double, powerLB: Double, powerRB: Double) {
+    leftFrontDrive.setPower(powerLF)
+    rightFrontDrive.setPower(powerRF)
+    leftBackDrive.setPower(powerLB)
+    rightBackDrive.setPower(powerRB)
   }
 
-  public void driveSmooth(double axial, double lateral, double yaw, double maximum) {
-
-    // uses the smoothed inputs for driving
+  fun driveSmooth(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
     drive(
       rh.controls.smoothInput(axial),
       rh.controls.smoothInput(lateral),
       rh.controls.smoothInput(yaw),
       maximum
-    );
+    )
   }
 
-  public void drive(double axial, double lateral, double yaw, double maximum) {
-    this.axial = axial;
-    this.lateral = lateral;
-    this.yaw = yaw;
-    this.maximum = maximum;
+  fun drive(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
+    this.axial = axial
+    this.lateral = lateral
+    this.yaw = yaw
+    this.maximum = maximum
 
-    // individual power for each wheel combining each input
-    double leftFrontPower = -axial + lateral + yaw;
-    double rightFrontPower = -axial - lateral - yaw;
-    double leftBackPower = -axial - lateral + yaw;
-    double rightBackPower = -axial + lateral - yaw;
+    // Individual power for each wheel combining each input
+    var leftFrontPower = -axial + lateral + yaw
+    var rightFrontPower = -axial - lateral - yaw
+    var leftBackPower = -axial - lateral + yaw
+    var rightBackPower = -axial + lateral - yaw
 
-    // Finds the maximum primitive power   (can go as large as 3.0)
-    double scaler = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-    scaler = Math.max(scaler, Math.abs(leftBackPower));
-    scaler = Math.max(scaler, Math.abs(rightBackPower));
+    // Finds the maximum primitive power (can go as large as 3.0)
+    var divisor = max(abs(leftFrontPower), abs(rightFrontPower))
+    divisor = max(divisor, abs(leftBackPower))
+    divisor = max(divisor, abs(rightBackPower))
 
-    // Checks if any power exceeds 1.0
-    if (scaler > 1.0) {
-
-      // Divides power by the maximum power so that no power exceeds 1.0
-      leftFrontPower /= scaler;
-      rightFrontPower /= scaler;
-      leftBackPower /= scaler;
-      rightBackPower /= scaler;
+    // Check if any power exceeds 1.0
+    if (divisor > 1.0) {
+      // Divide power by the maximum power so that no power exceeds 1.0
+      leftFrontPower /= divisor
+      rightFrontPower /= divisor
+      leftBackPower /= divisor
+      rightBackPower /= divisor
     }
 
-    // Scales the powers to be relative to the maximum speed
-    leftFrontPower *= maximum;
-    rightFrontPower *= maximum;
-    leftBackPower *= maximum;
-    rightBackPower *= maximum;
+    // Scale the powers to be relative to the maximum speed
+    leftFrontPower *= maximum
+    rightFrontPower *= maximum
+    leftBackPower *= maximum
+    rightBackPower *= maximum
 
-    // sets wheel power
-    setPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+    // Set wheel power
+    setPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower)
   }
 
-  public void update() { }
+  override fun update() {}
 
-  public void telemetry() {
+  override fun telemetry() {
+    rh.op.telemetry.addLine("drive\n----")
 
-    rh.op.telemetry.addLine("Drive Hardware:");
+    rh.op.telemetry.addLine("axial $axial, lateral $lateral, yaw $yaw")
+    rh.op.telemetry.addLine("maximum power $maximum")
+    rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine();
-
-    rh.op.telemetry.addData("axial", axial);
-    rh.op.telemetry.addData("lateral", lateral);
-    rh.op.telemetry.addData("yaw", yaw);
-
-    rh.op.telemetry.addLine();
-
-    rh.op.telemetry.addData("Maximum Power", maximum);
-
-    rh.op.telemetry.addLine();
-
-    rh.op.telemetry.addData("lf", leftFrontDrive.getPower());
-    rh.op.telemetry.addData("lr", rightFrontDrive.getPower());
-    rh.op.telemetry.addData("bf", leftBackDrive.getPower());
-    rh.op.telemetry.addData("br", rightBackDrive.getPower());
+    rh.op.telemetry.addLine("lf ${leftFrontDrive.getPower()}\u0009rf ${rightFrontDrive.getPower()}")
+    rh.op.telemetry.addLine("lb ${leftBackDrive.getPower()}\u0009rb ${rightBackDrive.getPower()}")
   }
 }
