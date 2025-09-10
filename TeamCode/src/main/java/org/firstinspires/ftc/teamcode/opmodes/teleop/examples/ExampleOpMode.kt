@@ -1,52 +1,46 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop.examples;
+package org.firstinspires.ftc.teamcode.opmodes.teleop.examples
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
+import org.firstinspires.ftc.teamcode.states.teleop.examples.ClawTeleop
+import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop
+import org.firstinspires.ftc.teamcode.states.teleop.examples.LiftTeleop
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.ParallelStack;
-import org.firstinspires.ftc.teamcode.stateengine.State;
-import org.firstinspires.ftc.teamcode.states.teleop.examples.ClawTeleop;
-import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop;
-import org.firstinspires.ftc.teamcode.states.teleop.examples.LiftTeleop;
-
+@Suppress("unused")
 @TeleOp(name = "Example OpMode", group = "Examples")
-public class ExampleOpMode extends LinearOpMode {
+class ExampleOpMode : LinearOpMode() {
+  private val rh = RobotHardware(this)
 
-  private RobotHardware rh = new RobotHardware(this);
+  override fun runOpMode() {
+    rh.initialize()
 
-  @Override
-  public void runOpMode() {
-    rh.initialize();
+    val states = arrayOf(
+      DriveTeleop(rh),
+      ClawTeleop(rh),
+      LiftTeleop(rh),
+    )
+    val stack = ParallelStack(states)
 
-    State[] states = {
-      new DriveTeleop(),
-      new ClawTeleop(),
-      new LiftTeleop(),
-    };
-    ParallelStack stack = new ParallelStack(states);
+    stack.init(rh)
 
-    stack.init(rh);
-
-    rh.telemetry();
+    rh.telemetry()
 
     // Wait for the game to start (driver presses PLAY)
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
+    telemetry.addData("Status", "Initialized")
+    telemetry.update()
 
-    waitForStart();
-    rh.runtime.reset();
+    waitForStart()
+    rh.runtime.reset()
 
-    // run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
-      stack.run();
-      rh.update();
+      stack.run()
+      rh.update()
 
-      telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
-
-      rh.telemetry();
-
-      telemetry.update();
+      telemetry.addLine("runtime: ${rh.runtime}")
+      rh.telemetry()
+      telemetry.update()
     }
   }
 }

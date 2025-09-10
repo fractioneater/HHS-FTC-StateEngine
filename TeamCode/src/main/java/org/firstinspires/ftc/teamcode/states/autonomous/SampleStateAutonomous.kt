@@ -1,36 +1,28 @@
-package org.firstinspires.ftc.teamcode.states.autonomous;
+package org.firstinspires.ftc.teamcode.states.autonomous
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.State
 
-public class SampleStateAutonomous implements State {
+@Suppress("unused")
+class SampleStateAutonomous(val rh: RobotHardware) : State {
 
-  // creates a reference to the main RobotHardware object for easy access
-  RobotHardware rh = null;
-
-  @Override
-  public void init(RobotHardware rh) {
-    this.rh = rh; // makes rh reference the main opmode's rh
-    // init anything needed for this state
-    // but this will likely not be used for most states
+  override fun init() {
+    // Init anything needed for this state
+    // But this will likely not be used for most states
   }
 
-  @Override
-  public void run() {
-    // the functions that call hardware functions are put here
+  override fun run() {
+    // The functions that call hardware functions are put here
 
-    /*TODO: DO NOT have code directly editing or accessing the hardware here!
-     * That should be done by calling hardware functions!
-     */
+    // NOTE: DO NOT have code editing the hardware here!
+    // That should all be done by calling hardware functions!
   }
 
-  @Override
-  public void stop() {
+  override fun stop() {
     // TODO.
   }
 
-  @Override
-  public boolean isDone() {
-    return false; //TODO: Update this function to return true when the state has finished running
-  }
+  override val isDone: Boolean
+    get() = false /* TODO: Update this function to return true when the state has finished running.
+                       This "getter" structure is helpful, but not necessary. */
 }

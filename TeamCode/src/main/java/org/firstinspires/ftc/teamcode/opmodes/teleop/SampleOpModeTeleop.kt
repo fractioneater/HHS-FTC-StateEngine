@@ -1,56 +1,41 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.teleop
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
+import org.firstinspires.ftc.teamcode.stateengine.State
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.ParallelStack;
-import org.firstinspires.ftc.teamcode.stateengine.State;
-
-import java.util.Locale;
-
+@Suppress("unused")
 @TeleOp(name = "Sample Parallel OpMode", group = "Samples")
-public class SampleOpModeTeleop extends LinearOpMode {
+class SampleOpModeTeleop : LinearOpMode() {
+  private val rh = RobotHardware(this)
 
-  private RobotHardware rh = new RobotHardware(this);
+  override fun runOpMode() {
+    rh.initialize()
 
-  @Override
-  public void runOpMode() {
-    // For telemetry
-    Locale.setDefault(Locale.US);
+    val states = arrayOf<State>()
+    val stack = ParallelStack(states)
 
-    rh.initialize();
+    stack.init(rh)
 
-    State[] states = {
-      /* TODO
-          Here you will setup all your teleop states in this list
-          The list is here for the opmode to loop through
-          ex) new SampleTeleop(), */ };
-    ParallelStack stack = new ParallelStack(states);
-
-    stack.init(rh);
-
-    rh.telemetry();
+    rh.telemetry()
 
     // Wait for the game to start (driver presses PLAY)
-    telemetry.addData("Status", "Initialized");
-    telemetry.update();
+    telemetry.addData("Status", "Initialized")
+    telemetry.update()
 
-    waitForStart();
-    rh.runtime.reset();
+    waitForStart()
+    rh.runtime.reset()
 
-    // run until the end of the match (driver presses STOP)
+    // Run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
+      stack.run()
+      rh.update()
 
-      stack.run();
-      rh.update();
-
-      // Show the elapsed game time and wheel power.
-      telemetry.addData("Status", "Run Time: " + rh.runtime.toString());
-
-      rh.telemetry();
-
-      telemetry.update();
+      telemetry.addLine("runtime: ${rh.runtime}")
+      rh.telemetry()
+      telemetry.update()
     }
   }
 }

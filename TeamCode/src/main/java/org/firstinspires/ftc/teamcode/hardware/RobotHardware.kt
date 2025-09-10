@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.examples.ExampleLiftHardware
 
 class RobotHardware(@JvmField var op: OpMode) : Hardware {
   @JvmField
-  var runtime: ElapsedTime?
+  var runtime: ElapsedTime = ElapsedTime()
 
   @JvmField
   var controls: Controls = Controls(this)
@@ -19,27 +19,24 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
       This is where you will declare all your hardware objects:
       ex) public SampleHardware sampleH; */
   @JvmField
-  var exampleClawH: ExampleClawHardware? = null
+  var exampleClawH: ExampleClawHardware = ExampleClawHardware(this)
   @JvmField
-  var exampleDriveH: ExampleDriveHardware? = null
+  var exampleDriveH: ExampleDriveHardware = ExampleDriveHardware(this)
   @JvmField
-  var exampleLiftH: ExampleLiftHardware? = null
+  var exampleLiftH: ExampleLiftHardware = ExampleLiftHardware(this)
 
   init {
-
     hardware = arrayOf<Hardware>(
       /* TODO
           Here you will setup all your hardware objects in this list. The list is here for the opmode to loop through.
           ex) sampleH = new SampleHardware(this), */
-      ExampleClawHardware(this).also { exampleClawH = it }, ExampleDriveHardware(this).also { exampleDriveH = it },
-      ExampleLiftHardware(this).also { exampleLiftH = it },
+      exampleClawH, exampleDriveH, exampleLiftH,
     )
-
-    runtime = ElapsedTime()
   }
 
   // Initialize all the hardware objects
   override fun initialize() {
+    runtime.reset() // Generally this should be called after waitForStart() anyway, but it's not causing any harm here.
     for (hw in hardware) {
       hw.initialize()
     }

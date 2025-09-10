@@ -1,25 +1,17 @@
-package org.firstinspires.ftc.teamcode.states.teleop.examples;
+package org.firstinspires.ftc.teamcode.states.teleop.examples
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.State
 
-public class LiftTeleop implements State {
+class LiftTeleop(val rh: RobotHardware) : State {
 
-  RobotHardware rh = null;
+  override fun init() {}
 
-  @Override
-  public void init(RobotHardware rh) { this.rh = rh; }
-
-  @Override
-  public void run() {
-    rh.exampleLiftH.setLiftPosition(rh.controls.exampleLiftSpeed());
+  override fun run() {
+    rh.exampleLiftH.setLiftPosition(rh.controls.exampleLiftSpeed())
   }
 
-  @Override
-  public void stop() {
-    // TODO.
-  }
+  override fun stop() {}
 
-  @Override
-  public boolean isDone() { return false; }
+  override val isDone = false
 }

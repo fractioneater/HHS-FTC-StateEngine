@@ -1,34 +1,26 @@
-package org.firstinspires.ftc.teamcode.states.teleop.examples;
+package org.firstinspires.ftc.teamcode.states.teleop.examples
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.State
 
-public class DriveTeleop implements State {
+class DriveTeleop(val rh: RobotHardware) : State {
 
-  RobotHardware rh = null;
+  override fun init() {}
 
-  @Override
-  public void init(RobotHardware rh) {
-    this.rh = rh;
-  }
-
-  @Override
-  public void run() {
-    double max = rh.controls.exampleDriveSpeed();
+  override fun run() {
+    val max = rh.controls.exampleDriveSpeed()
 
     // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-    double axial = rh.controls.driveY();
-    double lateral = rh.controls.driveX();
-    double yaw = rh.controls.driveR();
+    val axial = rh.controls.driveY()
+    val lateral = rh.controls.driveX()
+    val yaw = rh.controls.driveR()
 
-    rh.exampleDriveH.drive(axial, lateral, yaw, max);
+    rh.exampleDriveH.drive(axial, lateral, yaw, max)
   }
 
-  @Override
-  public void stop() {
+  override fun stop() {
     // TODO.
   }
 
-  @Override
-  public boolean isDone() { return false; }
+  override val isDone = false
 }

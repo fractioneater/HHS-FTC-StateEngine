@@ -1,33 +1,26 @@
-package org.firstinspires.ftc.teamcode.states.teleop;
+package org.firstinspires.ftc.teamcode.states.teleop
 
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.stateengine.State;
+import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.stateengine.State
 
-public class SampleStateTeleop implements State {
+@Suppress("unused")
+class SampleStateTeleop(val rh: RobotHardware) : State {
 
-  // creates a reference to the main RobotHardware object for easy access
-  RobotHardware rh;
-
-  @Override
-  public void init(RobotHardware rh) {
-    this.rh = rh; // makes rh reference the main opmode's rh
-    // there probably won't be any need to init anything in the teleop states
+  override fun init() {
+    // There probably won't be any need to init anything in the teleop states
   }
 
-  @Override
-  public void run() {
-    // the functions that call hardware functions are put here
+  override fun run() {
+    // The functions that call hardware functions are put here
 
-    //todo: DO NOT have code editing the hardware here!
-    //      That should all be done by calling hardware functions!
+    // NOTE: DO NOT have code editing the hardware here!
+    // That should all be done by calling hardware functions!
   }
 
-  @Override
-  public void stop() {
+  override fun stop() {
     // TODO.
   }
 
-  // teleop states will probably run for the entire teleop stage so they won't need to stop
-  @Override
-  public boolean isDone() { return false; }
+  // TeleOp states will probably run for the entire TeleOp stage so they won't need to stop
+  override val isDone = false
 }
