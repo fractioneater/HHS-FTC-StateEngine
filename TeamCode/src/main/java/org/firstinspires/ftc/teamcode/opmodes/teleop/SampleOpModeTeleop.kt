@@ -17,7 +17,7 @@ class SampleOpModeTeleop : LinearOpMode() {
     val states = arrayOf<State>()
     val stack = ParallelStack(states)
 
-    stack.init(rh)
+    stack.init()
 
     rh.telemetry()
 

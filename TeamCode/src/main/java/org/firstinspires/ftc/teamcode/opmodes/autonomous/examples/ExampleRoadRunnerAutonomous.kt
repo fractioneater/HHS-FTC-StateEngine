@@ -34,7 +34,7 @@ class ExampleRoadRunnerAutonomous : LinearOpMode() {
     )
     val stack = SeriesStack(states)
 
-    stack.init(rh)
+    stack.init()
 
     rh.telemetry()
 

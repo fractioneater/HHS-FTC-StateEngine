@@ -17,7 +17,7 @@ class SampleOpModeAuto : LinearOpMode() {
     val states = arrayOf<State>()
     val stack = SeriesStack(states)
 
-    stack.init(rh)
+    stack.init()
 
     rh.telemetry()
 

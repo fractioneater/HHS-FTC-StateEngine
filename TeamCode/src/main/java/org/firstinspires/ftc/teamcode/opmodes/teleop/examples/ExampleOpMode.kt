@@ -23,7 +23,7 @@ class ExampleOpMode : LinearOpMode() {
     )
     val stack = ParallelStack(states)
 
-    stack.init(rh)
+    stack.init()
 
     rh.telemetry()
 
