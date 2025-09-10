@@ -34,6 +34,7 @@ import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+import com.acmerobotics.roadrunner.ftc.LazyHardwareMapImu;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
@@ -98,8 +99,8 @@ public final class TankDrive {
   public final TankKinematics kinematics = new TankKinematics(PARAMS.inPerTick * PARAMS.trackWidthTicks);
 
   public final TurnConstraints defaultTurnConstraints = new TurnConstraints(PARAMS.maxAngVel, -PARAMS.maxAngAccel, PARAMS.maxAngAccel);
-  public final VelConstraint defaultVelConstraint = new MinVelConstraint(Arrays.asList(kinematics.new WheelVelConstraint(PARAMS.maxWheelVel),
-    new AngularVelConstraint(PARAMS.maxAngVel)));
+  public final VelConstraint defaultVelConstraint = new MinVelConstraint(
+    Arrays.asList(kinematics.new WheelVelConstraint(PARAMS.maxWheelVel), new AngularVelConstraint(PARAMS.maxAngVel)));
   public final AccelConstraint defaultAccelConstraint = new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
   public final List<DcMotorEx> leftMotors, rightMotors;
@@ -195,8 +196,8 @@ public final class TankDrive {
         return new PoseVelocity2d(new Vector2d(0.0, 0.0), 0.0);
       }
 
-      Twist2dDual<Time> twist =
-        kinematics.forward(new TankKinematics.WheelIncrements<>(new DualNum<Time>(new double[]{ meanLeftPos - lastLeftPos, meanLeftVel }).times(PARAMS.inPerTick),
+      Twist2dDual<Time> twist = kinematics.forward(
+        new TankKinematics.WheelIncrements<>(new DualNum<Time>(new double[]{ meanLeftPos - lastLeftPos, meanLeftVel }).times(PARAMS.inPerTick),
           new DualNum<Time>(new double[]{ meanRightPos - lastRightPos, meanRightVel, }).times(PARAMS.inPerTick)));
 
       lastLeftPos = meanLeftPos;
@@ -218,8 +219,8 @@ public final class TankDrive {
     // TODO: make sure your config has motors with these names (or change them)
     //   add additional motors on each side if you have them
     //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-    leftMotors = Collections.singletonList(hardwareMap.get(DcMotorEx.class, "left"));
-    rightMotors = Collections.singletonList(hardwareMap.get(DcMotorEx.class, "right"));
+    leftMotors = Arrays.asList(hardwareMap.get(DcMotorEx.class, "left"));
+    rightMotors = Arrays.asList(hardwareMap.get(DcMotorEx.class, "right"));
 
     for (DcMotorEx m : leftMotors) {
       m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -233,7 +234,7 @@ public final class TankDrive {
 
     // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
     //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-    lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
+    lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
 
     voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
@@ -391,8 +392,9 @@ public final class TankDrive {
 
       PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
-      PoseVelocity2dDual<Time> command = new PoseVelocity2dDual<>(Vector2dDual.constant(new Vector2d(0, 0), 3),
-        txWorldTarget.heading.velocity().plus(PARAMS.turnGain * localizer.getPose().heading.minus(txWorldTarget.heading.value()) + PARAMS.turnVelGain * (robotVelRobot.angVel - txWorldTarget.heading.velocity().value())));
+      PoseVelocity2dDual<Time> command = new PoseVelocity2dDual<>(Vector2dDual.constant(new Vector2d(0, 0), 3), txWorldTarget.heading.velocity().plus(
+        PARAMS.turnGain * localizer.getPose().heading.minus(
+          txWorldTarget.heading.value()) + PARAMS.turnVelGain * (robotVelRobot.angVel - txWorldTarget.heading.velocity().value())));
       driveCommandWriter.write(new DriveCommandMessage(command));
 
       TankKinematics.WheelVelocities<Time> wheelVels = kinematics.inverse(command);

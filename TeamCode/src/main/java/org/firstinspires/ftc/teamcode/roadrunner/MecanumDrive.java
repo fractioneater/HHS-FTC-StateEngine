@@ -34,6 +34,7 @@ import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.Encoder;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
+import com.acmerobotics.roadrunner.ftc.LazyHardwareMapImu;
 import com.acmerobotics.roadrunner.ftc.LazyImu;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
@@ -101,8 +102,8 @@ public final class MecanumDrive {
   public final MecanumKinematics kinematics = new MecanumKinematics(PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
 
   public final TurnConstraints defaultTurnConstraints = new TurnConstraints(PARAMS.maxAngVel, -PARAMS.maxAngAccel, PARAMS.maxAngAccel);
-  public final VelConstraint defaultVelConstraint = new MinVelConstraint(Arrays.asList(kinematics.new WheelVelConstraint(PARAMS.maxWheelVel),
-    new AngularVelConstraint(PARAMS.maxAngVel)));
+  public final VelConstraint defaultVelConstraint = new MinVelConstraint(
+    Arrays.asList(kinematics.new WheelVelConstraint(PARAMS.maxWheelVel), new AngularVelConstraint(PARAMS.maxAngVel)));
   public final AccelConstraint defaultAccelConstraint = new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
   public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
@@ -179,11 +180,11 @@ public final class MecanumDrive {
       }
 
       double headingDelta = heading.minus(lastHeading);
-      Twist2dDual<Time> twist = kinematics.forward(new MecanumKinematics.WheelIncrements<>(new DualNum<Time>(new double[]{ (leftFrontPosVel.position - lastLeftFrontPos),
-        leftFrontPosVel.velocity, }).times(PARAMS.inPerTick),
-        new DualNum<Time>(new double[]{ (leftBackPosVel.position - lastLeftBackPos), leftBackPosVel.velocity, }).times(PARAMS.inPerTick),
-        new DualNum<Time>(new double[]{ (rightBackPosVel.position - lastRightBackPos), rightBackPosVel.velocity, }).times(PARAMS.inPerTick),
-        new DualNum<Time>(new double[]{ (rightFrontPosVel.position - lastRightFrontPos), rightFrontPosVel.velocity, }).times(PARAMS.inPerTick)));
+      Twist2dDual<Time> twist = kinematics.forward(
+        new MecanumKinematics.WheelIncrements<>(new DualNum<Time>(new double[]{ (leftFrontPosVel.position - lastLeftFrontPos), leftFrontPosVel.velocity, }).times(PARAMS.inPerTick),
+          new DualNum<Time>(new double[]{ (leftBackPosVel.position - lastLeftBackPos), leftBackPosVel.velocity, }).times(PARAMS.inPerTick),
+          new DualNum<Time>(new double[]{ (rightBackPosVel.position - lastRightBackPos), rightBackPosVel.velocity, }).times(PARAMS.inPerTick),
+          new DualNum<Time>(new double[]{ (rightFrontPosVel.position - lastRightFrontPos), rightFrontPosVel.velocity, }).times(PARAMS.inPerTick)));
 
       lastLeftFrontPos = leftFrontPosVel.position;
       lastLeftBackPos = leftBackPosVel.position;
@@ -222,7 +223,7 @@ public final class MecanumDrive {
 
     // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
     //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-    lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
+    lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
 
     voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
