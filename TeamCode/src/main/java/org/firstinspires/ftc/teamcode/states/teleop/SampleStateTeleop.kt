@@ -4,9 +4,11 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
 @Suppress("unused")
-class SampleStateTeleop(val rh: RobotHardware) : State {
+class SampleStateTeleop() : State {
+  private lateinit var rh: RobotHardware
 
-  override fun init() {
+  override fun init(rh: RobotHardware) {
+    this.rh = rh
     // There probably won't be any need to init anything in the teleop states
   }
 

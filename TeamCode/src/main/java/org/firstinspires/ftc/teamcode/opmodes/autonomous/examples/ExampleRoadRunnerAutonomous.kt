@@ -17,14 +17,14 @@ class ExampleRoadRunnerAutonomous : LinearOpMode() {
     rh.initialize()
 
     val states = arrayOf<State>(
-      SplinePathRR(rh,
+      SplinePathRR(
         arrayOf(
           Pose2d(0.0, 0.0, 0.0),  // start Pose2d
           Pose2d(20.0, 20.0, 0.0),
           Pose2d(20.0, -20.0, 0.0),  // start Pose2d of next SplinePathRR
         )
       ),
-      SplinePathRR(rh,
+      SplinePathRR(
         arrayOf(
           Pose2d(20.0, -20.0, 0.0),  // start Pose2d
           Pose2d(40.0, 0.0, 0.0),
@@ -34,7 +34,7 @@ class ExampleRoadRunnerAutonomous : LinearOpMode() {
     )
     val stack = SeriesStack(states)
 
-    stack.init()
+    stack.init(rh)
 
     rh.telemetry()
 

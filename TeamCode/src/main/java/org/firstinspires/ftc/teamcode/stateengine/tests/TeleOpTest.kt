@@ -16,8 +16,8 @@ class TeleOpTest : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val driveTest: State = DriveTeleop(rh)
-    driveTest.init()
+    val driveTest: State = DriveTeleop()
+    driveTest.init(rh)
 
     // Wait for the game to start (driver presses PLAY)
     telemetry.addLine("initialized")

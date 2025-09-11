@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.states.teleop.examples
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
-class DriveTeleop(val rh: RobotHardware) : State {
+class DriveTeleop() : State {
+  private lateinit var rh: RobotHardware
 
-  override fun init() {}
+  override fun init(rh: RobotHardware) {
+    this.rh = rh
+  }
 
   override fun run() {
     val max = rh.controls.exampleDriveSpeed()

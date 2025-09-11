@@ -4,9 +4,11 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
 @Suppress("unused")
-class SampleStateAutonomous(val rh: RobotHardware) : State {
+class SampleStateAutonomous() : State {
+  private lateinit var rh: RobotHardware
 
-  override fun init() {
+  override fun init(rh: RobotHardware) {
+    this.rh = rh
     // Init anything needed for this state
     // But this will likely not be used for most states
   }

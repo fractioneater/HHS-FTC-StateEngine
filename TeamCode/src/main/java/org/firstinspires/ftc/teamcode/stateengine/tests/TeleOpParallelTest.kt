@@ -17,10 +17,10 @@ class TeleOpParallelTest : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf<State>(DriveTeleop(rh))
+    val states = arrayOf<State>(DriveTeleop())
     val stack = ParallelStack(states)
 
-    stack.init()
+    stack.init(rh)
 
     // Wait for the game to start (driver presses PLAY)
     telemetry.addLine("initialized")

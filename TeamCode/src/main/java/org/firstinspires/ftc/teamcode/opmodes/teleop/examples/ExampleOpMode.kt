@@ -17,13 +17,13 @@ class ExampleOpMode : LinearOpMode() {
     rh.initialize()
 
     val states = arrayOf(
-      DriveTeleop(rh),
-      ClawTeleop(rh),
-      LiftTeleop(rh),
+      DriveTeleop(),
+      ClawTeleop(),
+      LiftTeleop(),
     )
     val stack = ParallelStack(states)
 
-    stack.init()
+    stack.init(rh)
 
     rh.telemetry()
 
