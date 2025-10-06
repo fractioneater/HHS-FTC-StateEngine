@@ -43,24 +43,24 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   private var decreasingSpeed = 1.0
 
   init {
-    motor.setTargetPosition(0)
+    motor.targetPosition = 0
 
-    motor.setMode(RunMode.RUN_USING_ENCODER)
-    motor.setDirection(direction)
-    motor.setZeroPowerBehavior(zeroPowerBehavior)
+    motor.mode = RunMode.RUN_USING_ENCODER
+    motor.direction = direction
+    motor.zeroPowerBehavior = zeroPowerBehavior
   }
 
   // Default ZeroPowerBehavior is BRAKE
   constructor(rh: RobotHardware, name: String, direction: Direction) : this(rh, name, direction, ZeroPowerBehavior.BRAKE)
 
   fun move() {
-    motor.setPower(powerCurve())
+    motor.power = powerCurve()
   }
 
   val isMoving: Boolean
     get() {
-      return if (this.isDumbMode) 0.0 != motor.getPower()
-      else 0.0 != (motor.getCurrentPosition() - motor.getTargetPosition()).toDouble()
+      return if (this.isDumbMode) 0.0 != motor.power
+      else 0.0 != (motor.currentPosition - motor.targetPosition).toDouble()
     }
 
   fun setRange(min: Int, max: Int) {
@@ -73,13 +73,13 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   }
 
   fun goToPresetPosition(index: Int) {
-    motor.setTargetPosition(positions[index])
+    motor.targetPosition = positions[index]
   }
 
   fun clampTargetInRange() {
-    var target = min(max, motor.getTargetPosition())
+    var target = min(max, motor.targetPosition)
     target = max(min, target)
-    motor.setTargetPosition(target)
+    motor.targetPosition = target
   }
 
   // --------------------------------------------------------------------------------------------
@@ -88,30 +88,30 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
 
   fun disableEncoder() {
     this.isDumbMode = true
-    motor.setMode(RunMode.RUN_WITHOUT_ENCODER)
+    motor.mode = RunMode.RUN_WITHOUT_ENCODER
   }
 
   fun enableEncoder() {
     this.isDumbMode = false
-    motor.setMode(RunMode.STOP_AND_RESET_ENCODER)
-    motor.setMode(RunMode.RUN_USING_ENCODER)
-    motor.setTargetPosition(motor.getCurrentPosition())
+    motor.mode = RunMode.STOP_AND_RESET_ENCODER
+    motor.mode = RunMode.RUN_USING_ENCODER
+    motor.targetPosition = motor.currentPosition
   }
 
   fun moveDumb(power: Double) {
-    motor.setPower(power)
+    motor.power = power
   }
 
   // --------------------------------------------------------------------------------------------
   fun goToPosition(targetPosition: Int) {
-    motor.setTargetPosition(targetPosition)
+    motor.targetPosition = targetPosition
   }
 
   val currentPosition: Int
-    get() = motor.getCurrentPosition()
+    get() = motor.currentPosition
 
   val targetPosition: Int
-    get() = motor.getTargetPosition()
+    get() = motor.targetPosition
 
   // --------------------------------------------------------------------------------------------
   fun setSpeedControls(speed: Double) {
@@ -141,7 +141,7 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
     if (this.isDumbMode) return 0.0
 
     // Find signed distance to target
-    var distance = motor.getTargetPosition() - motor.getCurrentPosition()
+    var distance = motor.targetPosition - motor.currentPosition
 
     // Set the correct speed for the direction of motion
     var speed = increasingSpeed
@@ -174,7 +174,7 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   fun telemetry() {
     rh.op.telemetry.addLine("\nmotor '$name'")
     rh.op.telemetry.addLine("    MIN is $min, MAX is $max")
-    rh.op.telemetry.addLine("    positions: CURRENT ${motor.getCurrentPosition()}, TARGET ${motor.getTargetPosition()}")
+    rh.op.telemetry.addLine("    positions: CURRENT ${motor.currentPosition}, TARGET ${motor.targetPosition}")
     rh.op.telemetry.addLine("    ${if (this.isMoving) "IS" else "NOT"} moving${if (this.isMoving) " at speed ${powerCurve()}" else ""}")
   }
 }

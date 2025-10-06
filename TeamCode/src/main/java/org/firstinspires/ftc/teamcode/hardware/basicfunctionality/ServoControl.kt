@@ -36,7 +36,7 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
       // Adjust the position by the step size, in the direction of the target
       this.currentPosition += stepSize.withSign(targetPosition - this.currentPosition)
     }
-    servo.setPosition(this.currentPosition)
+    servo.position = this.currentPosition
   }
 
   val isMoving: Boolean
@@ -45,7 +45,7 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   fun setPositions(positions: DoubleArray) { // Should ONLY be called in initialization
     this.positions = positions
 
-    servo.setPosition(positions[0])
+    servo.position = positions[0]
     positionsIndex = 0
     this.currentPosition = positions[0]
     targetPosition = positions[0]

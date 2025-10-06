@@ -20,17 +20,17 @@ class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
   private var maximum = 1.0
 
   override fun initialize() {
-    leftFrontDrive.setDirection(Direction.REVERSE)
-    leftBackDrive.setDirection(Direction.REVERSE)
-    rightFrontDrive.setDirection(Direction.FORWARD)
-    rightBackDrive.setDirection(Direction.FORWARD)
+    leftFrontDrive.direction = Direction.REVERSE
+    leftBackDrive.direction = Direction.REVERSE
+    rightFrontDrive.direction = Direction.FORWARD
+    rightBackDrive.direction = Direction.FORWARD
   }
 
   fun setPower(powerLF: Double, powerRF: Double, powerLB: Double, powerRB: Double) {
-    leftFrontDrive.setPower(powerLF)
-    rightFrontDrive.setPower(powerRF)
-    leftBackDrive.setPower(powerLB)
-    rightBackDrive.setPower(powerRB)
+    leftFrontDrive.power = powerLF
+    rightFrontDrive.power = powerRF
+    leftBackDrive.power = powerLB
+    rightBackDrive.power = powerRB
   }
 
   fun driveSmooth(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
@@ -87,7 +87,7 @@ class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
     rh.op.telemetry.addLine("maximum power $maximum")
     rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine("lf ${leftFrontDrive.getPower()}\u0009rf ${rightFrontDrive.getPower()}")
-    rh.op.telemetry.addLine("lb ${leftBackDrive.getPower()}\u0009rb ${rightBackDrive.getPower()}")
+    rh.op.telemetry.addLine("lf ${leftFrontDrive.power}\u0009rf ${rightFrontDrive.power}")
+    rh.op.telemetry.addLine("lb ${leftBackDrive.power}\u0009rb ${rightBackDrive.power}")
   }
 }

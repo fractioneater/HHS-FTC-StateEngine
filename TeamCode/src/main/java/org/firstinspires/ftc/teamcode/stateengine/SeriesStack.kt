@@ -23,8 +23,4 @@ class SeriesStack(private val stack: Array<State>) : StackList(stack), State {
       stack[stackIndex].run()
     }
   }
-
-  override fun stop() {
-    stackIndex = stack.size
-  }
 }

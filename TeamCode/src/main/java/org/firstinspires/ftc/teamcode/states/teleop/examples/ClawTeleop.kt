@@ -16,9 +16,5 @@ class ClawTeleop() : State {
     }
   }
 
-  override fun stop() {
-    // TODO.
-  }
-
   override val isDone = false
 }

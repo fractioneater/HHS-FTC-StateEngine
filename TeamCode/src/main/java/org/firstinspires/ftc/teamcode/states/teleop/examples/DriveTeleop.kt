@@ -21,9 +21,5 @@ class DriveTeleop() : State {
     rh.exampleDriveH.drive(axial, lateral, yaw, max)
   }
 
-  override fun stop() {
-    // TODO.
-  }
-
   override val isDone = false
 }

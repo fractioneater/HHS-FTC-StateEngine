@@ -23,8 +23,4 @@ class SplinePathRR(val poses: Array<Pose2d>) : State {
     isDone = true
     runBlocking(builder.build()) // TODO: Test this new RR 1.0.x code
   }
-
-  override fun stop() {
-    // TODO.
-  }
 }

@@ -20,10 +20,6 @@ class SampleStateAutonomous() : State {
     // That should all be done by calling hardware functions!
   }
 
-  override fun stop() {
-    // TODO.
-  }
-
   override val isDone: Boolean
     get() = false /* TODO: Update this function to return true when the state has finished running.
                        This "getter" structure is helpful, but not necessary. */

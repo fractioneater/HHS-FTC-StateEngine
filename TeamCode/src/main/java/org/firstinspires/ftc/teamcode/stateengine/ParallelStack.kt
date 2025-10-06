@@ -25,8 +25,4 @@ class ParallelStack(private val stack: Array<State>) : StackList(stack), State {
       this.isDone = true
     }
   }
-
-  override fun stop() {
-    this.isDone = true
-  }
 }

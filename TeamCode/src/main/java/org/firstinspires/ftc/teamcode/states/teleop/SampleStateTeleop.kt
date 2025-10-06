@@ -19,10 +19,6 @@ class SampleStateTeleop() : State {
     // That should all be done by calling hardware functions!
   }
 
-  override fun stop() {
-    // TODO.
-  }
-
   // TeleOp states will probably run for the entire TeleOp stage so they won't need to stop
   override val isDone = false
 }
