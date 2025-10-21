@@ -22,7 +22,7 @@ class SampleOpModeTeleop : LinearOpMode() {
     rh.telemetry()
 
     // Wait for the game to start (driver presses PLAY)
-    telemetry.addData("Status", "Initialized")
+    telemetry.addLine("initialized")
     telemetry.update()
 
     waitForStart()

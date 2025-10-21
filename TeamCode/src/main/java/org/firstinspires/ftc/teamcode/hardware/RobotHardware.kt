@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode.hardware
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
-import org.firstinspires.ftc.teamcode.hardware.examples.ExampleClawHardware
-import org.firstinspires.ftc.teamcode.hardware.examples.ExampleDriveHardware
-import org.firstinspires.ftc.teamcode.hardware.examples.ExampleLiftHardware
 
 class RobotHardware(@JvmField var op: OpMode) : Hardware {
   @JvmField
@@ -19,18 +16,16 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
       This is where you will declare all your hardware objects:
       ex) public SampleHardware sampleH; */
   @JvmField
-  var exampleClawH: ExampleClawHardware = ExampleClawHardware(this)
+  var driveH = DriveHardware(this)
   @JvmField
-  var exampleDriveH: ExampleDriveHardware = ExampleDriveHardware(this)
-  @JvmField
-  var exampleLiftH: ExampleLiftHardware = ExampleLiftHardware(this)
+  var cameraH = ArtifactCamera(this)
 
   init {
     hardware = arrayOf<Hardware>(
       /* TODO
           Here you will setup all your hardware objects in this list. The list is here for the opmode to loop through.
           ex) sampleH = new SampleHardware(this), */
-      exampleClawH, exampleDriveH, exampleLiftH,
+      driveH, cameraH,
     )
   }
 

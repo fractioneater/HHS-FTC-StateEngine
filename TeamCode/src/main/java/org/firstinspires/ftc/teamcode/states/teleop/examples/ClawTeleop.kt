@@ -11,9 +11,9 @@ class ClawTeleop() : State {
   }
 
   override fun run() {
-    if (rh.controls.clawButton() && !rh.exampleClawH.clawMoving()) {
-      rh.exampleClawH.setClaw(!rh.exampleClawH.isClawClosed)
-    }
+    // if (rh.controls.clawButton() && !rh.exampleClawH.clawMoving()) {
+    //   rh.exampleClawH.setClaw(!rh.exampleClawH.isClawClosed)
+    // }
   }
 
   override val isDone = false

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardware.examples
+package org.firstinspires.ftc.teamcode.hardware
 
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import kotlin.math.abs
 import kotlin.math.max
 
-class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
+class DriveHardware(private val rh: RobotHardware) : Hardware {
   private var leftFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
   private var leftBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
   private var rightFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")

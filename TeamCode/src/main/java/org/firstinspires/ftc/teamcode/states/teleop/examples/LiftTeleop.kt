@@ -11,7 +11,7 @@ class LiftTeleop() : State {
   }
 
   override fun run() {
-    rh.exampleLiftH.setLiftPosition(rh.controls.exampleLiftSpeed())
+    // rh.exampleLiftH.setLiftPosition(rh.controls.exampleLiftSpeed())
   }
 
   override val isDone = false

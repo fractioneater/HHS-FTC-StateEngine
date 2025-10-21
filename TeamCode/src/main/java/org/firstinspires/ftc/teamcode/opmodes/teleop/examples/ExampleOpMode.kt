@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
-import org.firstinspires.ftc.teamcode.states.teleop.examples.ClawTeleop
+import org.firstinspires.ftc.teamcode.stateengine.State
 import org.firstinspires.ftc.teamcode.states.teleop.examples.DriveTeleop
-import org.firstinspires.ftc.teamcode.states.teleop.examples.LiftTeleop
 
 @Suppress("unused")
 @TeleOp(name = "Example OpMode", group = "Examples")
@@ -16,10 +15,8 @@ class ExampleOpMode : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf(
+    val states = arrayOf<State>(
       DriveTeleop(),
-      ClawTeleop(),
-      LiftTeleop(),
     )
     val stack = ParallelStack(states)
 
@@ -28,7 +25,7 @@ class ExampleOpMode : LinearOpMode() {
     rh.telemetry()
 
     // Wait for the game to start (driver presses PLAY)
-    telemetry.addData("Status", "Initialized")
+    telemetry.addLine("initialized")
     telemetry.update()
 
     waitForStart()

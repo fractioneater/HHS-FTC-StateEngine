@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.hardware.basicfunctionality
+package org.firstinspires.ftc.teamcode.hardware
 
 import android.graphics.Color
 import android.util.Size
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
@@ -12,11 +12,18 @@ import org.firstinspires.ftc.vision.opencv.ColorRange
 import org.firstinspires.ftc.vision.opencv.ImageRegion
 
 // A couple of helpful subclasses.
-enum class ArtifactColor { GREEN, PURPLE }
+enum class ArtifactColor {
+  GREEN, PURPLE;
+
+  override fun toString(): String {
+    return if (this == PURPLE) "purple" else "green"
+  }
+}
+
 class VisibleArtifact(val color: ArtifactColor, val blob: ColorBlobLocatorProcessor.Blob)
 
 // The majority of this code is from samples/ConceptVisionColorLocator_Circle
-class ArtifactCamera(val rh: RobotHardware, val name: String) {
+class ArtifactCamera(private val rh: RobotHardware) : Hardware {
   private val greenLocator = ColorBlobLocatorProcessor.Builder()
     .setTargetColorRange(ColorRange.ARTIFACT_GREEN)
     .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
@@ -57,10 +64,6 @@ class ArtifactCamera(val rh: RobotHardware, val name: String) {
     .setCamera(rh.op.hardwareMap.get(WebcamName::class.java, "cam"))
     .build()
 
-  init {
-    aprilTag.setDecimation(3f)
-  }
-
   // --- PROPERTIES ---
   // Getter syntax: instead of calling camera.getArtifacts(), we can just write camera.artifacts and it will evaluate this code.
 
@@ -76,7 +79,7 @@ class ArtifactCamera(val rh: RobotHardware, val name: String) {
       // Filter by how circular the blobs are. Shadows will affect this, so we'll need to test on each field.
       ColorBlobLocatorProcessor.Util.filterByCriteria(ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY, 0.6, 1.0, greenBlobs)
       ColorBlobLocatorProcessor.Util.filterByCriteria(ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY, 0.6, 1.0, purpleBlobs)
-      
+
       return greenBlobs.map { it -> VisibleArtifact(ArtifactColor.GREEN, it) } +
         purpleBlobs.map { it -> VisibleArtifact(ArtifactColor.PURPLE, it) }
     }
@@ -90,4 +93,35 @@ class ArtifactCamera(val rh: RobotHardware, val name: String) {
     get() {
       return aprilTag.freshDetections
     }
+
+  // --- INTERFACE METHODS ---
+  // These need to be defined here because this class implements Hardware.
+
+  override fun initialize() {
+    aprilTag.setDecimation(3f)
+  }
+
+  override fun update() {
+    // Nothing, really.
+  }
+
+  override fun telemetry() {
+    val t = rh.op.telemetry
+    t.addLine("vision\n----")
+
+    t.addLine("AprilTags")
+    for (tag in aprilTags) {
+      if (tag.metadata == null) {
+        t.addLine("\tid ${tag.id}, tag unknown, center (in pixels): ${tag.center.x} ${tag.center.y}")
+      } else {
+        t.addLine("\tid ${tag.id}, name: ${tag.metadata.name}, xyz: ${tag.ftcPose.x} ${tag.ftcPose.y} ${tag.ftcPose.z}")
+      }
+    }
+
+    t.addLine("Artifacts")
+    for (ball in artifacts) {
+      val circle = ball.blob.circle
+      t.addLine("\t${ball.color} artifact at (${circle.x}, ${circle.y}), radius: ${circle.radius}")
+    }
+  }
 }
