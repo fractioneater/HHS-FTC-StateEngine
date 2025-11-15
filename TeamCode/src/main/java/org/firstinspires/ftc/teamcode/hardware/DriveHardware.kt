@@ -2,16 +2,15 @@ package org.firstinspires.ftc.teamcode.hardware
 
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
-import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import kotlin.math.abs
 import kotlin.math.max
 
-class DriveHardware(private val rh: RobotHardware) : Hardware {
-  private var leftFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
-  private var leftBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
-  private var rightFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
-  private var rightBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
+class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
+  private lateinit var leftFrontDrive: DcMotorEx
+  private lateinit var leftBackDrive: DcMotorEx
+  private lateinit var rightFrontDrive: DcMotorEx
+  private lateinit var rightBackDrive: DcMotorEx
 
   // Directional inputs for telemetry
   private var axial = 0.0
@@ -20,6 +19,11 @@ class DriveHardware(private val rh: RobotHardware) : Hardware {
   private var maximum = 1.0
 
   override fun initialize() {
+    leftFrontDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
+    leftBackDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
+    rightFrontDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
+    rightBackDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
+
     leftFrontDrive.direction = Direction.REVERSE
     leftBackDrive.direction = Direction.REVERSE
     rightFrontDrive.direction = Direction.FORWARD
@@ -83,11 +87,11 @@ class DriveHardware(private val rh: RobotHardware) : Hardware {
   override fun telemetry() {
     rh.op.telemetry.addLine("drive\n----")
 
-    rh.op.telemetry.addLine("axial $axial, lateral $lateral, yaw $yaw")
-    rh.op.telemetry.addLine("maximum power $maximum")
+    rh.op.telemetry.addLine("axial: $axial, lateral: $lateral, yaw: $yaw")
+    rh.op.telemetry.addLine("maximum power: $maximum")
     rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine("lf ${leftFrontDrive.power}\trf ${rightFrontDrive.power}")
-    rh.op.telemetry.addLine("lb ${leftBackDrive.power}\trb ${rightBackDrive.power}")
+    rh.op.telemetry.addLine("lf: ${leftFrontDrive.power}\trf: ${rightFrontDrive.power}")
+    rh.op.telemetry.addLine("lb: ${leftBackDrive.power}\trb: ${rightBackDrive.power}")
   }
 }

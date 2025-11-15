@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import org.firstinspires.ftc.vision.VisionPortal
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor
 import org.firstinspires.ftc.vision.opencv.ColorRange
@@ -51,6 +52,7 @@ class ArtifactCamera(private val rh: RobotHardware) : Hardware {
     .build()
 
   private val aprilTag = AprilTagProcessor.Builder()
+    .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
     .setDrawTagID(true)
     .setDrawTagOutline(true)
     .setDrawAxes(false)
@@ -58,11 +60,7 @@ class ArtifactCamera(private val rh: RobotHardware) : Hardware {
     .build()
 
   @Suppress("unused")
-  private val portal = VisionPortal.Builder()
-    .addProcessors(greenLocator, purpleLocator, aprilTag)
-    .setCameraResolution(Size(320, 240)) // Higher resolution is WORSE for this purpose
-    .setCamera(rh.op.hardwareMap.get(WebcamName::class.java, "cam"))
-    .build()
+  private lateinit var portal: VisionPortal
 
   // --- PROPERTIES ---
   // Getter syntax: instead of calling camera.getArtifacts(), we can just write camera.artifacts and it will evaluate this code.
@@ -98,6 +96,12 @@ class ArtifactCamera(private val rh: RobotHardware) : Hardware {
   // These need to be defined here because this class implements Hardware.
 
   override fun initialize() {
+    portal = VisionPortal.Builder()
+      .addProcessors(greenLocator, purpleLocator, aprilTag)
+      .setCameraResolution(Size(640, 480)) // Higher resolution is WORSE for color blob locators.
+      .setCamera(rh.op.hardwareMap.get(WebcamName::class.java, "cam"))
+      .build()
+
     aprilTag.setDecimation(3f)
   }
 
