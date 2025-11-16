@@ -6,10 +6,13 @@ import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.MotorControl
 
 class ExampleLiftHardware(private val rh: RobotHardware) : Hardware {
-  private var leftLift: MotorControl = MotorControl(rh, "leftLift", Direction.FORWARD)
-  private var rightLift: MotorControl = MotorControl(rh, "rightLift", Direction.REVERSE)
+  private lateinit var leftLift: MotorControl
+  private lateinit var rightLift: MotorControl
 
   override fun initialize() {
+    leftLift = MotorControl(rh, "leftLift", Direction.FORWARD)
+    rightLift = MotorControl(rh, "rightLift", Direction.REVERSE)
+
     // Set motor range
     leftLift.setRange(0, 1000)
     rightLift.setRange(0, 1000)

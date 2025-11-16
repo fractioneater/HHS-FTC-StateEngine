@@ -66,7 +66,7 @@ class ArtifactCamera(private val rh: RobotHardware) : Hardware {
   // Getter syntax: instead of calling camera.getArtifacts(), we can just write camera.artifacts and it will evaluate this code.
 
   val artifacts: List<VisibleArtifact>
-    get() {
+    get() { // TODO: Is it expensive to run all of this processing on every call?
       val greenBlobs = greenLocator.blobs
       val purpleBlobs = purpleLocator.blobs
 

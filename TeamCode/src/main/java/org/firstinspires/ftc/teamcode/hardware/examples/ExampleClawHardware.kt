@@ -5,9 +5,10 @@ import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl
 
 class ExampleClawHardware(private val rh: RobotHardware) : Hardware {
-  private var clawServo: ServoControl = ServoControl(rh, "claw")
+  private lateinit var clawServo: ServoControl
 
   override fun initialize() {
+    clawServo = ServoControl(rh, "claw")
     clawServo.setPositions(doubleArrayOf(1.0, 0.0))
   }
 

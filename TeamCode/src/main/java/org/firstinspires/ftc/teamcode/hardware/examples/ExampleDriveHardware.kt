@@ -8,10 +8,10 @@ import kotlin.math.abs
 import kotlin.math.max
 
 class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
-  private var leftFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
-  private var leftBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
-  private var rightFrontDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
-  private var rightBackDrive: DcMotorEx = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
+  private lateinit var leftFrontDrive: DcMotorEx
+  private lateinit var leftBackDrive: DcMotorEx
+  private lateinit var rightFrontDrive: DcMotorEx
+  private lateinit var rightBackDrive: DcMotorEx
 
   // Directional inputs for telemetry
   private var axial = 0.0
@@ -20,6 +20,11 @@ class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
   private var maximum = 1.0
 
   override fun initialize() {
+    leftFrontDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "lfD")
+    leftBackDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "lbD")
+    rightFrontDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
+    rightBackDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
+
     leftFrontDrive.direction = Direction.REVERSE
     leftBackDrive.direction = Direction.REVERSE
     rightFrontDrive.direction = Direction.FORWARD
