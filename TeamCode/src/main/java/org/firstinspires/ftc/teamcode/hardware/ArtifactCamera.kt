@@ -12,19 +12,17 @@ import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor
 import org.firstinspires.ftc.vision.opencv.ColorRange
 import org.firstinspires.ftc.vision.opencv.ImageRegion
 
-// A couple of helpful subclasses.
-enum class ArtifactColor {
-  GREEN, PURPLE;
-
-  override fun toString(): String {
-    return if (this == PURPLE) "purple" else "green"
-  }
-}
-
-class VisibleArtifact(val color: ArtifactColor, val blob: ColorBlobLocatorProcessor.Blob)
-
 // The majority of this code is from samples/ConceptVisionColorLocator_Circle
 class ArtifactCamera(private val rh: RobotHardware) : Hardware {
+  // A couple of helpful subclasses.
+  enum class ArtifactColor {
+    GREEN, PURPLE;
+
+    override fun toString(): String = if (this == PURPLE) "purple" else "green"
+  }
+
+  class VisibleArtifact(val color: ArtifactColor, val blob: ColorBlobLocatorProcessor.Blob)
+
   private val greenLocator = ColorBlobLocatorProcessor.Builder()
     .setTargetColorRange(ColorRange.ARTIFACT_GREEN)
     .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
@@ -78,8 +76,8 @@ class ArtifactCamera(private val rh: RobotHardware) : Hardware {
       ColorBlobLocatorProcessor.Util.filterByCriteria(ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY, 0.6, 1.0, greenBlobs)
       ColorBlobLocatorProcessor.Util.filterByCriteria(ColorBlobLocatorProcessor.BlobCriteria.BY_CIRCULARITY, 0.6, 1.0, purpleBlobs)
 
-      return greenBlobs.map { it -> VisibleArtifact(ArtifactColor.GREEN, it) } +
-        purpleBlobs.map { it -> VisibleArtifact(ArtifactColor.PURPLE, it) }
+      return greenBlobs.map { VisibleArtifact(ArtifactColor.GREEN, it) } +
+        purpleBlobs.map { VisibleArtifact(ArtifactColor.PURPLE, it) }
     }
 
   val aprilTags: List<AprilTagDetection>

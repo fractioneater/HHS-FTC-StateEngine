@@ -33,7 +33,7 @@ class Controls(private val rh: RobotHardware) {
    * This uses the function:
    * y = 2.5x^3 - 1.5x^5
    */
-  fun smoothInput(gamepadInput: Double): Double {
+  fun curveInput(gamepadInput: Double): Double {
     return 2.5 * gamepadInput.pow(3.0) - 1.5 * gamepadInput.pow(5.0)
   }
 
@@ -52,7 +52,7 @@ class Controls(private val rh: RobotHardware) {
    * usually false for booleans and 0 for doubles
    */
 
-  // This does not specify whether the button was just pressed or is being held. Use ButtonState for that.
+  // IMPORTANT: This does not specify whether the button was just pressed or is being held. Use ButtonState for that.
   fun exampleDiscreteInput() =
     gp1?.a ?: false
 
@@ -61,33 +61,37 @@ class Controls(private val rh: RobotHardware) {
 
   fun exampleSmoothedContinuousInput() =
     if (gp1 == null) 0.0
-    else smoothInput(gp1.left_trigger.toDouble())
+    else curveInput(gp1.left_trigger.toDouble())
 
-  // Example forwards movement control
+  // Forwards movement control
   fun driveY() =
     if (gp1 == null) 0.0
-    else smoothInput(gp1.left_stick_y.toDouble())
+    else curveInput(gp1.left_stick_y.toDouble())
 
-  // Example sideways movement control
+  // Sideways movement control
   fun driveX() =
     if (gp1 == null) 0.0
-    else smoothInput(gp1.left_stick_x.toDouble())
+    else curveInput(gp1.left_stick_x.toDouble())
 
-  // Example rotation movement control
+  // Rotation movement control
   fun driveR() =
     if (gp1 == null) 0.0
-    else smoothInput(gp1.right_stick_x.toDouble())
+    else curveInput(gp1.right_stick_x.toDouble())
 
-  // Example movement speed control
-  fun exampleDriveSpeed() =
-    if (gp1 == null) 0.0
-    else 0.5 + (0.25 * smoothInput((gp1.right_trigger - gp1.left_trigger).toDouble()))
+  // Movement speed control
+  fun driveMaxSpeed() =
+    if (gp1 != null && gp2 != null) {
+      if (gp1.right_trigger == 0f) 1.0 + gp2.right_trigger
+      else 1.0 + 2.0 * (gp1.right_trigger)
+    } else {
+      1.0 + 2.0 * ((gp1?.right_trigger?.toDouble() ?: (gp2?.right_trigger?.toDouble() ?: 0.0)))
+    }
 
   // Example motor speed control (designed for lift)
   // Turns doubles into ints because motor speeds have to be ints
   fun exampleLiftSpeed() =
     if (gp2 == null) 0
-    else (10.0 * smoothInput((gp2.right_trigger - gp2.left_trigger).toDouble())).toInt()
+    else (10.0 * curveInput((gp2.right_trigger - gp2.left_trigger).toDouble())).toInt()
   // right is INCREASE
   // left is DECREASE
 

@@ -8,7 +8,7 @@ class Launcher(@JvmField val rh: RobotHardware) : Hardware {
   private lateinit var l: DcMotorEx
   private lateinit var r: DcMotorEx
 
-  private var speed = 0.0
+  private var speed: Double = 0.0
     set(value) {
       l.power = value.coerceIn(-1.0..1.0)
       r.power = value.coerceIn(-1.0..1.0)

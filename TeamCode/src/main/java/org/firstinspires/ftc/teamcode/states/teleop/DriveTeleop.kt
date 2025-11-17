@@ -11,7 +11,7 @@ class DriveTeleop() : State {
   }
 
   override fun run() {
-    val max = rh.controls.exampleDriveSpeed()
+    val max = rh.controls.driveMaxSpeed()
 
     val axial = rh.controls.driveY()
     val lateral = rh.controls.driveX()

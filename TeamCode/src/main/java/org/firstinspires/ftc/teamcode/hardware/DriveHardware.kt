@@ -37,15 +37,6 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
     rightBackDrive.power = powerRB
   }
 
-  fun driveSmooth(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
-    drive(
-      rh.controls.smoothInput(axial),
-      rh.controls.smoothInput(lateral),
-      rh.controls.smoothInput(yaw),
-      maximum
-    )
-  }
-
   fun drive(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
     this.axial = axial
     this.lateral = lateral

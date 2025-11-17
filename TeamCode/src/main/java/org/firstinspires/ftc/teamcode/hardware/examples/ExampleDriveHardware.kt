@@ -40,9 +40,9 @@ class ExampleDriveHardware(private val rh: RobotHardware) : Hardware {
 
   fun driveSmooth(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
     drive(
-      rh.controls.smoothInput(axial),
-      rh.controls.smoothInput(lateral),
-      rh.controls.smoothInput(yaw),
+      rh.controls.curveInput(axial),
+      rh.controls.curveInput(lateral),
+      rh.controls.curveInput(yaw),
       maximum
     )
   }
