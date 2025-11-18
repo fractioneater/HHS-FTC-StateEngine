@@ -3,12 +3,13 @@ package org.firstinspires.ftc.teamcode.hardware
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
+import java.util.Locale
 
 class Launcher(@JvmField val rh: RobotHardware) : Hardware {
   private lateinit var l: DcMotorEx
   private lateinit var r: DcMotorEx
 
-  private var speed: Double = 0.0
+  var speed: Double = 0.0
     set(value) {
       l.power = value.coerceIn(-1.0..1.0)
       r.power = value.coerceIn(-1.0..1.0)
@@ -24,10 +25,11 @@ class Launcher(@JvmField val rh: RobotHardware) : Hardware {
   override fun update() {}
 
   override fun telemetry() {
+    fun f(x: Double) = String.format(Locale.US, "%.2f", x)
+
     rh.op.telemetry.addLine("flywheels\n----")
 
     rh.op.telemetry.addLine("target speed: $speed")
-    rh.op.telemetry.addLine("current:\n${l.power}\t${r.power}")
-    TODO("Get encoder speeds and check if the wheels are turning at the same velocity. Show a warning if not.")
+    rh.op.telemetry.addLine("current:\n${f(l.power)}\t${f(r.power)}")
   }
 }

@@ -18,6 +18,9 @@ class DriveTeleop() : State {
     val yaw = rh.controls.driveR()
 
     rh.driveH.drive(axial, lateral, yaw, max)
+
+    // For fun :)
+    rh.launcherH.speed = rh.cameraH.aprilTags.size.toDouble() / 2.0
   }
 
   override val isDone = false
