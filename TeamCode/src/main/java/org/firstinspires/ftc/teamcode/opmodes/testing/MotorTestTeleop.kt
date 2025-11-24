@@ -1,23 +1,21 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop.examples
+package org.firstinspires.ftc.teamcode.opmodes.teleop
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
 import org.firstinspires.ftc.teamcode.stateengine.State
-import org.firstinspires.ftc.teamcode.states.teleop.DriveTeleop
+import org.firstinspires.ftc.teamcode.states.testing.MotorTest
 
 @Suppress("unused")
-@Disabled
-@TeleOp(name = "Example OpMode", group = "Examples")
-class ExampleOpMode : LinearOpMode() {
+@TeleOp(name = "Wheel Test", group = "\"testing\"")
+class MotorTestTeleop : LinearOpMode() {
   private val rh = RobotHardware(this)
 
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf<State>(DriveTeleop())
+    val states = arrayOf<State>(MotorTest())
     val stack = ParallelStack(states)
 
     stack.init(rh)
@@ -29,13 +27,11 @@ class ExampleOpMode : LinearOpMode() {
     telemetry.update()
 
     waitForStart()
-    rh.runtime.reset()
 
+    // Run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
       stack.run()
       rh.update()
-
-      telemetry.addLine("runtime: ${rh.runtime}")
       rh.telemetry()
       telemetry.update()
     }

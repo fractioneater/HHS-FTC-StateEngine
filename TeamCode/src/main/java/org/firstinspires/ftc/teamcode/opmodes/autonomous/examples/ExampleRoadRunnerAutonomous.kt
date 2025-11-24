@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.autonomous.examples
 
 import com.acmerobotics.roadrunner.Pose2d
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.SeriesStack
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.stateengine.State
 import org.firstinspires.ftc.teamcode.states.autonomous.examples.SplinePathRR
 
 @Suppress("unused")
+@Disabled
 @Autonomous(name = "RoadRunner Testing", group = "Examples")
 class ExampleRoadRunnerAutonomous : LinearOpMode() {
   private val rh = RobotHardware(this)

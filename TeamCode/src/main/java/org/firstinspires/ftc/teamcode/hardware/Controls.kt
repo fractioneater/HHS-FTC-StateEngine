@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.Gamepad
 import kotlin.math.pow
 
 class Controls(private val rh: RobotHardware) {
-  private enum class ButtonState {
+  enum class ButtonState {
     PRESSED, HELD, RELEASED, NOT_PRESSED
   }
 
@@ -40,9 +40,36 @@ class Controls(private val rh: RobotHardware) {
   // TODO: Buttons that can take advantage of ButtonState should be defined here ---------------------------------------------------------
 
   // Example claw button
-  private val aButton = ButtonControl { gp1?.a ?: false }
-  fun clawButtonPressed(): Boolean =
-    (aButton.state == ButtonState.PRESSED)
+  fun clawButtonPressed(): Boolean = (aButton1.state == ButtonState.PRESSED)
+
+  // Let's do all the buttons for fun.
+  private val aButton1 = ButtonControl { gp1?.a ?: false }
+  private val bButton1 = ButtonControl { gp1?.b ?: false }
+  private val xButton1 = ButtonControl { gp1?.x ?: false }
+  private val yButton1 = ButtonControl { gp1?.y ?: false }
+
+  fun a1State(): ButtonState = aButton1.state
+  fun a1(): Boolean = gp1?.a ?: false
+  fun b1State(): ButtonState = bButton1.state
+  fun b1(): Boolean = gp1?.b ?: false
+  fun x1State(): ButtonState = xButton1.state
+  fun x1(): Boolean = gp1?.x ?: false
+  fun y1State(): ButtonState = yButton1.state
+  fun y1(): Boolean = gp1?.y ?: false
+
+  private val aButton2 = ButtonControl { gp2?.a ?: false }
+  private val bButton2 = ButtonControl { gp2?.b ?: false }
+  private val xButton2 = ButtonControl { gp2?.x ?: false }
+  private val yButton2 = ButtonControl { gp2?.y ?: false }
+
+  fun a2State(): ButtonState = aButton2.state
+  fun a2(): Boolean = gp2?.a ?: false
+  fun b2State(): ButtonState = bButton2.state
+  fun b2(): Boolean = gp2?.b ?: false
+  fun x2State(): ButtonState = xButton2.state
+  fun x2(): Boolean = gp2?.x ?: false
+  fun y2State(): ButtonState = yButton2.state
+  fun y2(): Boolean = gp2?.y ?: false
 
   // TODO: This is where you will place code for accessing the gamepad inputs ------------------------------------------------------------
 
@@ -56,7 +83,7 @@ class Controls(private val rh: RobotHardware) {
   fun exampleDiscreteInput() =
     gp1?.a ?: false
 
-  fun exampleContinuousInput() =
+  fun rightTrigger1() =
     (gp1?.right_trigger ?: 0.0).toDouble()
 
   fun exampleSmoothedContinuousInput() =

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
 import org.firstinspires.ftc.teamcode.stateengine.State
 
 @Suppress("unused")
+@Disabled
 @TeleOp(name = "Sample Parallel OpMode", group = "Samples")
 class SampleOpModeTeleop : LinearOpMode() {
   private val rh = RobotHardware(this)

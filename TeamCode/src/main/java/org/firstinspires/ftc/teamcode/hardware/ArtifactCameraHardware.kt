@@ -12,10 +12,9 @@ import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor
 import org.firstinspires.ftc.vision.opencv.ColorRange
 import org.firstinspires.ftc.vision.opencv.ImageRegion
 import java.util.Locale
-import kotlin.math.round
 
 // The majority of this code is from samples/ConceptVisionColorLocator_Circle
-class ArtifactCamera(private val rh: RobotHardware) : Hardware {
+class ArtifactCameraHardware(private val rh: RobotHardware) : Hardware {
   // A couple of helpful subclasses.
   enum class ArtifactColor {
     GREEN, PURPLE;

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.states.teleop
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
-class DriveTeleop() : State {
+class DriveTeleop : State {
   private lateinit var rh: RobotHardware
 
   override fun init(rh: RobotHardware) {

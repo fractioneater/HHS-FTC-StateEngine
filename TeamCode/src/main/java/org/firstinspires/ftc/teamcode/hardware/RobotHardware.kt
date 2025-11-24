@@ -18,9 +18,9 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
   @JvmField
   var driveH = DriveHardware(this)
   @JvmField
-  var cameraH = ArtifactCamera(this)
+  var cameraH = ArtifactCameraHardware(this)
   @JvmField
-  var launcherH = Launcher(this)
+  var launcherH = LauncherHardware(this)
 
   init {
     hardware = arrayOf<Hardware>(

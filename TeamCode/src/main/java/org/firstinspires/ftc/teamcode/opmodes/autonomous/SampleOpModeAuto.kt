@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonomous
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.SeriesStack
 import org.firstinspires.ftc.teamcode.stateengine.State
 
 @Suppress("unused")
+@Disabled
 @Autonomous(name = "Sample Series OpMode", group = "Samples")
 class SampleOpModeAuto : LinearOpMode() {
   private val rh = RobotHardware(this)

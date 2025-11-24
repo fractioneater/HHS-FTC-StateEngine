@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import java.util.Locale
 
-class Launcher(@JvmField val rh: RobotHardware) : Hardware {
+class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
   private lateinit var l: DcMotorEx
   private lateinit var r: DcMotorEx
 
