@@ -34,6 +34,7 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
   // Initialize all the hardware objects
   override fun initialize() {
     runtime.reset() // Generally this should be called after waitForStart() anyway, but it's not causing any harm here.
+    controls.initialize()
     for (hw in hardware) {
       hw.initialize()
     }

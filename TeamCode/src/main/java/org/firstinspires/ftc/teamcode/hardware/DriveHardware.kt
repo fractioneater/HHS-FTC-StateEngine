@@ -76,7 +76,7 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
   override fun update() {}
 
   override fun telemetry() {
-    rh.op.telemetry.addLine("drive\n----")
+    rh.op.telemetry.addLine("\ndrive\n----")
 
     rh.op.telemetry.addLine("axial: $axial, lateral: $lateral, yaw: $yaw")
     rh.op.telemetry.addLine("maximum power: $maximum")

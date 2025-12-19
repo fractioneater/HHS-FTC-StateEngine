@@ -18,7 +18,8 @@ class MotorTest : State {
       if (rh.controls.b1()) 1.0 else 0.0
     )
 
-    rh.launcherH.speed = rh.controls.rightTrigger1()
+    rh.launcherH.flywheelSpeed = rh.controls.rightTrigger1()
+    rh.launcherH.intakeSpeed = rh.controls.leftTrigger1()
 
     // Telemetry.
     rh.op.telemetry.addLine("Tilt the controller 45° clockwise. Now ABXY buttons correspond to the drive motor in their position.")
@@ -28,7 +29,8 @@ class MotorTest : State {
     rh.op.telemetry.addLine("               (B) - back left\n")
 
     rh.op.telemetry.addLine()
-    rh.op.telemetry.addLine("Press [right_trigger] to adjust speed of the flywheel motors.")
+    rh.op.telemetry.addLine("Press [right_trigger] for flywheel speed.")
+    rh.op.telemetry.addLine("Press [left_trigger] for intake speed.")
   }
 
   override val isDone = false

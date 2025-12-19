@@ -20,7 +20,7 @@ class DriveTeleop : State {
     rh.driveH.drive(axial, lateral, yaw, max)
 
     // For fun :)
-    rh.launcherH.speed = rh.cameraH.aprilTags.size.toDouble() / 2.0
+    rh.launcherH.flywheelSpeed = rh.cameraH.aprilTags.size.toDouble() / 2.0
   }
 
   override val isDone = false

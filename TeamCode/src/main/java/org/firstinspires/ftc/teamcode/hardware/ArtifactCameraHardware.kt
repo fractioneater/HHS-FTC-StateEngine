@@ -111,7 +111,7 @@ class ArtifactCameraHardware(private val rh: RobotHardware) : Hardware {
     fun f(x: Float) = String.format(Locale.US, "%.2f", x)
 
     val t = rh.op.telemetry
-    t.addLine("vision\n----")
+    t.addLine("\nvision\n----")
 
     t.addLine("AprilTags")
     for (tag in aprilTags) {
