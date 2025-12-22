@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -44,10 +45,10 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
     this.maximum = maximum
 
     // Individual power for each wheel combining each input
-    var leftFrontPower = -axial + lateral + yaw
-    var rightFrontPower = -axial - lateral - yaw
-    var leftBackPower = -axial - lateral + yaw
-    var rightBackPower = -axial + lateral - yaw
+    var leftFrontPower = -axial + lateral - yaw
+    var rightFrontPower = -axial - lateral + yaw
+    var leftBackPower = -axial - lateral - yaw
+    var rightBackPower = -axial + lateral + yaw
 
     // Finds the maximum primitive power (can go as large as 3.0)
     var divisor = max(abs(leftFrontPower), abs(rightFrontPower))
@@ -76,13 +77,15 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
   override fun update() {}
 
   override fun telemetry() {
+    fun f(x: Double) = String.format(Locale.US, "%.2f", x)
+
     rh.op.telemetry.addLine("\ndrive\n----")
 
     rh.op.telemetry.addLine("axial: $axial, lateral: $lateral, yaw: $yaw")
     rh.op.telemetry.addLine("maximum power: $maximum")
     rh.op.telemetry.addLine()
 
-    rh.op.telemetry.addLine("lf: ${leftFrontDrive.power}\trf: ${rightFrontDrive.power}")
-    rh.op.telemetry.addLine("lb: ${leftBackDrive.power}\trb: ${rightBackDrive.power}")
+    rh.op.telemetry.addLine("lf: ${f(leftFrontDrive.power)}\trf: ${f(rightFrontDrive.power)}")
+    rh.op.telemetry.addLine("lb: ${f(leftBackDrive.power)}\trb: ${f(rightBackDrive.power)}")
   }
 }

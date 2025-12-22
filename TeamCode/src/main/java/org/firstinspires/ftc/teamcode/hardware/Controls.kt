@@ -117,12 +117,13 @@ class Controls(private val rh: RobotHardware) {
     else curveInput(gp1!!.right_stick_x.toDouble())
 
   // Movement speed control
+  // Scaling between 0.5 and 1
   fun driveMaxSpeed() =
     if (gp1 != null && gp2 != null) {
-      if (gp1!!.right_trigger == 0f) 1.0 + gp2!!.right_trigger
-      else 1.0 + 2.0 * (gp1!!.right_trigger)
+      if (gp1!!.right_trigger == 0f) 0.5 + gp2!!.right_trigger / 3.0
+      else 0.5 + gp1!!.right_trigger / 2.0
     } else {
-      1.0 + 2.0 * ((gp1?.right_trigger?.toDouble() ?: (gp2?.right_trigger?.toDouble() ?: 0.0)))
+      0.5 + ((gp1?.right_trigger?.toDouble() ?: (gp2?.right_trigger?.toDouble() ?: 0.0))) / 2.0
     }
 
   // Example motor speed control (designed for lift)
