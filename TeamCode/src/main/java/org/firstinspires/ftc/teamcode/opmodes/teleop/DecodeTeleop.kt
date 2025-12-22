@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
 import org.firstinspires.ftc.teamcode.stateengine.State
 import org.firstinspires.ftc.teamcode.states.teleop.DriveTeleop
+import org.firstinspires.ftc.teamcode.states.teleop.LauncherTeleop
 
 @Suppress("unused")
 @TeleOp(name = "2025-26 Decode TELEOP", group = "\"maybe the top?\"")
@@ -15,7 +16,7 @@ class DecodeTeleop : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf<State>(DriveTeleop())
+    val states = arrayOf(DriveTeleop(), LauncherTeleop())
     val stack = ParallelStack(states)
 
     stack.init(rh)

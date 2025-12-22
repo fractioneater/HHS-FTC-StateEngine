@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware
 
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import java.util.Locale
 
@@ -21,6 +22,8 @@ class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
   override fun initialize() {
     flywheel = rh.op.hardwareMap.get(DcMotorEx::class.java, "flywheel")
     intake = rh.op.hardwareMap.get(DcMotorEx::class.java, "intake")
+
+    intake.direction = Direction.REVERSE
   }
 
   override fun update() {}
