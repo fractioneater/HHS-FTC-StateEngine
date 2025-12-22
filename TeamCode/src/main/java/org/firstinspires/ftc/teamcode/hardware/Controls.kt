@@ -94,6 +94,9 @@ class Controls(private val rh: RobotHardware) {
   fun leftTrigger1() =
     (gp1?.left_trigger ?: 0.0).toDouble()
 
+  fun rightBumper1() = gp1?.right_bumper ?: false
+  fun leftBumper1() = gp1?.left_bumper ?: false
+
   fun exampleSmoothedContinuousInput() =
     if (gp1 == null) 0.0
     else curveInput(gp1!!.left_trigger.toDouble())
