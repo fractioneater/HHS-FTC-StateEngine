@@ -14,8 +14,8 @@ class LauncherTeleop : State {
     val lb = rh.controls.leftBumper1()
     val rb = rh.controls.rightBumper1()
 
-    rh.launcherH.flywheelSpeed = rb.toDouble();
-    rh.launcherH.intakeSpeed = lb.toDouble();
+    rh.launcherH.flywheelSpeed = if (rb) 1.0 else 0.0
+    rh.launcherH.intakeSpeed = if (lb) 1.0 else 0.0
   }
 
   override val isDone = false
