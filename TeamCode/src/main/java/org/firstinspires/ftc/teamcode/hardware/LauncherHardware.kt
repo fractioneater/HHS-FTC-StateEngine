@@ -23,6 +23,7 @@ class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
     flywheel = rh.op.hardwareMap.get(DcMotorEx::class.java, "flywheel")
     intake = rh.op.hardwareMap.get(DcMotorEx::class.java, "intake")
 
+    // TODO: How to make this different between robots? 15317 needs normal, 6383 needs reverse
     intake.direction = Direction.REVERSE
   }
 

@@ -25,8 +25,8 @@ class MotorTest : State {
     rh.op.telemetry.addLine("Tilt the controller 45° clockwise. Now ABXY buttons correspond to the drive motor in their position.")
 
     rh.op.telemetry.addLine("               (Y) - front right\n")
-    rh.op.telemetry.addLine("(X) - front left       (A) - back right\n")
-    rh.op.telemetry.addLine("               (B) - back left\n")
+    rh.op.telemetry.addLine("(X) - front left       (B) - back right\n")
+    rh.op.telemetry.addLine("               (A) - back left\n")
 
     rh.op.telemetry.addLine()
     rh.op.telemetry.addLine("Press [right_trigger] for flywheel speed.")
