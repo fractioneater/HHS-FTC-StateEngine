@@ -21,13 +21,15 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
   var cameraH = ArtifactCameraHardware(this)
   @JvmField
   var launcherH = LauncherHardware(this)
+//  @JvmField
+//  var chuteH = ChuteHardware(this)
 
   init {
     hardware = arrayOf<Hardware>(
       /* TODO
           Here you will setup all your hardware objects in this list. The list is here for the opmode to loop through.
           ex) sampleH, otherH, thirdH */
-      driveH, cameraH, launcherH
+      driveH, cameraH, launcherH, /*chuteH*/
     )
   }
 
