@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware
 
+import com.qualcomm.hardware.dfrobot.HuskyLens
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
@@ -23,8 +24,12 @@ class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
     flywheel = rh.op.hardwareMap.get(DcMotorEx::class.java, "flywheel")
     intake = rh.op.hardwareMap.get(DcMotorEx::class.java, "intake")
 
-    // TODO: How to make this different between robots? 15317 needs normal, 6383 needs reverse
-    intake.direction = Direction.REVERSE
+    try {
+      rh.op.hardwareMap.get(HuskyLens::class.java, "this-is-6383")
+      intake.direction = Direction.FORWARD
+    } catch (_: Exception) {
+      intake.direction = Direction.REVERSE
+    }
   }
 
   override fun update() {}
@@ -35,5 +40,6 @@ class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
     rh.op.telemetry.addLine("\nflywheel / intake\n----")
 
     rh.op.telemetry.addLine("speed: ${f(flywheelSpeed)} / ${f(intakeSpeed)}")
+    rh.op.telemetry.addLine("intake direction: ${intake.direction}")
   }
 }
