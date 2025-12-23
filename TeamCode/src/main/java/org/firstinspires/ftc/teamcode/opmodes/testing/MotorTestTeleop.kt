@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
 import org.firstinspires.ftc.teamcode.stateengine.State
-import org.firstinspires.ftc.teamcode.states.testing.MotorTest
+import org.firstinspires.ftc.teamcode.states.testing.MotorTestTState
 
 @Suppress("unused")
 @TeleOp(name = "Wheel Test", group = "\"testing\"")
@@ -15,7 +15,7 @@ class MotorTestTeleop : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf<State>(MotorTest())
+    val states = arrayOf<State>(MotorTestTState())
     val stack = ParallelStack(states)
 
     stack.init(rh)

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.states.teleop
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
-class DriveTeleop : State {
+class LauncherTState : State {
   private lateinit var rh: RobotHardware
 
   override fun init(rh: RobotHardware) {
@@ -11,13 +11,11 @@ class DriveTeleop : State {
   }
 
   override fun run() {
-    val max = rh.controls.driveMaxSpeed()
+    val lb = rh.controls.leftBumper1()
+    val rb = rh.controls.rightBumper1()
 
-    val axial = rh.controls.driveY()
-    val lateral = rh.controls.driveX()
-    val yaw = rh.controls.driveR()
-
-    rh.driveH.drive(axial, lateral, yaw, max)
+    rh.launcherH.flywheelSpeed = if (rb) 1.0 else 0.0
+    rh.launcherH.intakeSpeed = if (lb) 1.0 else 0.0
   }
 
   override val isDone = false

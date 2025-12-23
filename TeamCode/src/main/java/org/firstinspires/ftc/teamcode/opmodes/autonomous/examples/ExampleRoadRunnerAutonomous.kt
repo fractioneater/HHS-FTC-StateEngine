@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.SeriesStack
 import org.firstinspires.ftc.teamcode.stateengine.State
-import org.firstinspires.ftc.teamcode.states.autonomous.examples.SplinePathRR
+import org.firstinspires.ftc.teamcode.states.autonomous.examples.RRSplineAState
 
 @Suppress("unused")
 @Disabled
@@ -19,14 +19,14 @@ class ExampleRoadRunnerAutonomous : LinearOpMode() {
     rh.initialize()
 
     val states = arrayOf<State>(
-      SplinePathRR(
+      RRSplineAState(
         arrayOf(
           Pose2d(0.0, 0.0, 0.0),  // start Pose2d
           Pose2d(20.0, 20.0, 0.0),
           Pose2d(20.0, -20.0, 0.0),  // start Pose2d of next SplinePathRR
         )
       ),
-      SplinePathRR(
+      RRSplineAState(
         arrayOf(
           Pose2d(20.0, -20.0, 0.0),  // start Pose2d
           Pose2d(40.0, 0.0, 0.0),

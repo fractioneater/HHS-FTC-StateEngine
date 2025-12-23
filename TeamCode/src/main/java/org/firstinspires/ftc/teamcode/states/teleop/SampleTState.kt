@@ -1,16 +1,15 @@
-package org.firstinspires.ftc.teamcode.states.autonomous
+package org.firstinspires.ftc.teamcode.states.teleop
 
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
 @Suppress("unused")
-class SampleStateAutonomous() : State {
+class SampleTState() : State {
   private lateinit var rh: RobotHardware
 
   override fun init(rh: RobotHardware) {
     this.rh = rh
-    // Init anything needed for this state
-    // But this will likely not be used for most states
+    // There probably won't be any need to init anything in the teleop states
   }
 
   override fun run() {
@@ -20,7 +19,6 @@ class SampleStateAutonomous() : State {
     // That should all be done by calling hardware functions!
   }
 
-  override val isDone: Boolean
-    get() = false /* TODO: Update this function to return true when the state has finished running.
-                       This "getter" structure is helpful, but not necessary. */
+  // TeleOp states will probably run for the entire TeleOp stage so they won't need to stop
+  override val isDone = false
 }

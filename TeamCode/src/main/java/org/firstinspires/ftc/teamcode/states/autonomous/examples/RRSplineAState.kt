@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive
 import org.firstinspires.ftc.teamcode.stateengine.State
 
-class SplinePathRR(val poses: Array<Pose2d>) : State {
+class RRSplineAState(val poses: Array<Pose2d>) : State {
   private lateinit var rh: RobotHardware
   override var isDone: Boolean = false
 

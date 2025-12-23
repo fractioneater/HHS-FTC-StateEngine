@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.ParallelStack
 import org.firstinspires.ftc.teamcode.stateengine.State
-import org.firstinspires.ftc.teamcode.states.teleop.DriveTeleop
+import org.firstinspires.ftc.teamcode.states.teleop.DriveTState
 
 @Suppress("unused")
 @TeleOp(name = "Parallel Test", group = "Testing")
@@ -17,7 +17,7 @@ class TeleOpParallelTest : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf<State>(DriveTeleop())
+    val states = arrayOf<State>(DriveTState())
     val stack = ParallelStack(states)
 
     stack.init(rh)

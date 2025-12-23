@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.states.testing
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware
 import org.firstinspires.ftc.teamcode.stateengine.State
 
-class MotorTest : State {
+class MotorTestTState : State {
   private lateinit var rh: RobotHardware
 
   override fun init(rh: RobotHardware) {
