@@ -1,23 +1,24 @@
 package org.firstinspires.ftc.teamcode.hardware
 
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl
+import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.CRServoControl
 
 class ChuteHardware(@JvmField val rh: RobotHardware) : Hardware {
-  private lateinit var horizontal: ServoControl
-  private lateinit var vertical: ServoControl
+  private lateinit var horizontal: CRServoControl
+  private lateinit var vertical: CRServoControl
 
   override fun initialize() {
-    horizontal = ServoControl(rh, "horizontal")
-    vertical = ServoControl(rh, "vertical")
+    horizontal = CRServoControl(rh, "horizontal")
+    vertical = CRServoControl(rh, "vertical")
   }
 
-  override fun update() {
-    TODO("Not yet implemented")
-  }
+  fun doNothing() {}
+
+  override fun update() {}
 
   override fun telemetry() {
-    // Nothing yet.
-    // TODO: I need to put some stuff here, though.
+    rh.op.telemetry.addLine("\nchute\n----")
+    horizontal.telemetry()
+    vertical.telemetry()
   }
 }

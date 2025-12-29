@@ -59,7 +59,7 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
 
   val isMoving: Boolean
     get() {
-      return if (this.isDumbMode) 0.0 != motor.power
+      return if (isDumbMode) 0.0 != motor.power
       else 0.0 != (motor.currentPosition - motor.targetPosition).toDouble()
     }
 
@@ -87,12 +87,12 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
     private set
 
   fun disableEncoder() {
-    this.isDumbMode = true
+    isDumbMode = true
     motor.mode = RunMode.RUN_WITHOUT_ENCODER
   }
 
   fun enableEncoder() {
-    this.isDumbMode = false
+    isDumbMode = false
     motor.mode = RunMode.STOP_AND_RESET_ENCODER
     motor.mode = RunMode.RUN_USING_ENCODER
     motor.targetPosition = motor.currentPosition
@@ -115,8 +115,8 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
 
   // --------------------------------------------------------------------------------------------
   fun setSpeedControls(speed: Double) {
-    this.increasingSpeed = speed
-    this.decreasingSpeed = speed
+    increasingSpeed = speed
+    decreasingSpeed = speed
   }
 
   fun setSpeedControls(increasingSpeed: Double, decreasingSpeed: Double) {
@@ -138,7 +138,7 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   // Above this distance it will approach 100% speed
   // Below this distance it will approach 0% speed with a deadzone near 0 distance
   fun powerCurve(): Double {
-    if (this.isDumbMode) return 0.0
+    if (isDumbMode) return 0.0
 
     // Find signed distance to target
     var distance = motor.targetPosition - motor.currentPosition
@@ -172,9 +172,9 @@ class MotorControl(val rh: RobotHardware, val name: String, val direction: Direc
   }
 
   fun telemetry() {
-    rh.op.telemetry.addLine("\nmotor '$name'")
+    rh.op.telemetry.addLine("motor '$name'")
     rh.op.telemetry.addLine("    MIN is $min, MAX is $max")
     rh.op.telemetry.addLine("    positions: CURRENT ${motor.currentPosition}, TARGET ${motor.targetPosition}")
-    rh.op.telemetry.addLine("    ${if (this.isMoving) "IS" else "NOT"} moving${if (this.isMoving) " at speed ${powerCurve()}" else ""}")
+    rh.op.telemetry.addLine("    ${if (isMoving) "IS" else "NOT"} moving${if (isMoving) " at speed ${powerCurve()}" else ""}")
   }
 }

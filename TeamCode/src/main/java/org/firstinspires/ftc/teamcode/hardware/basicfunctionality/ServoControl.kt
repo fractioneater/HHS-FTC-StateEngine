@@ -29,25 +29,25 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   constructor(rh: RobotHardware, name: String) : this(rh, name, 0.15 /* TODO: Step size */)
 
   fun move() {
-    if (abs(targetPosition - this.currentPosition) <= stepSize) {
+    if (abs(targetPosition - currentPosition) <= stepSize) {
       // If distance to target is smaller than the step size, set position directly to target
-      this.currentPosition = targetPosition
+      currentPosition = targetPosition
     } else {
       // Adjust the position by the step size, in the direction of the target
-      this.currentPosition += stepSize.withSign(targetPosition - this.currentPosition)
+      currentPosition += stepSize.withSign(targetPosition - currentPosition)
     }
-    servo.position = this.currentPosition
+    servo.position = currentPosition
   }
 
   val isMoving: Boolean
-    get() = 0.0 != (this.currentPosition - this.targetPosition)
+    get() = 0.0 != (currentPosition - targetPosition)
 
   fun setPositions(positions: DoubleArray) { // Should ONLY be called in initialization
     this.positions = positions
 
     servo.position = positions[0]
     positionsIndex = 0
-    this.currentPosition = positions[0]
+    currentPosition = positions[0]
     targetPosition = positions[0]
   }
 
@@ -62,9 +62,9 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   }
 
   fun telemetry() {
-    rh.op.telemetry.addLine("\nservo '$name'")
+    rh.op.telemetry.addLine("servo '$name'")
     rh.op.telemetry.addLine("    MIN is 0, MAX is 1")
     rh.op.telemetry.addLine("    at position $currentPosition, target is $targetPosition")
-    rh.op.telemetry.addLine("    position #$positionsIndex, ${if (this.isMoving) "IS" else "NOT"} moving")
+    rh.op.telemetry.addLine("    position #$positionsIndex, ${if (isMoving) "IS" else "NOT"} moving")
   }
 }
