@@ -26,7 +26,7 @@ class LauncherHardware(@JvmField val rh: RobotHardware) : Hardware {
 
     try {
       rh.op.hardwareMap.get(HuskyLens::class.java, "this-is-6383")
-      intake.direction = Direction.FORWARD
+      intake.direction = Direction.REVERSE
     } catch (_: Exception) {
       intake.direction = Direction.REVERSE
     }
