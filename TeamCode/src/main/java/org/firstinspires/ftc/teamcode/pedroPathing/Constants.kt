@@ -1,31 +1,31 @@
-package org.firstinspires.ftc.teamcode.pedroPathing;
+package org.firstinspires.ftc.teamcode.pedroPathing
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.ftc.FollowerBuilder;
-import com.pedropathing.ftc.drivetrains.MecanumConstants;
-import com.pedropathing.ftc.localization.Encoder;
-import com.pedropathing.ftc.localization.constants.DriveEncoderConstants;
-import com.pedropathing.paths.PathConstraints;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.pedropathing.follower.Follower
+import com.pedropathing.follower.FollowerConstants
+import com.pedropathing.ftc.FollowerBuilder
+import com.pedropathing.ftc.drivetrains.MecanumConstants
+import com.pedropathing.ftc.localization.Encoder
+import com.pedropathing.ftc.localization.constants.DriveEncoderConstants
+import com.pedropathing.paths.PathConstraints
+import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.HardwareMap
 
-public class Constants {
-  public static FollowerConstants followerConstants = new FollowerConstants()
-    .mass(7); // TODO!
+object Constants {
+  var followerConstants = FollowerConstants().mass(7.0)!! // TODO!
 
-  public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+  var pathConstraints: PathConstraints = PathConstraints(0.99, 100.0, 1.0, 1.0)
 
-  public static Follower createFollower(HardwareMap hardwareMap) {
-    return new FollowerBuilder(followerConstants, hardwareMap)
+  @JvmStatic
+  fun createFollower(hardwareMap: HardwareMap): Follower {
+    return FollowerBuilder(followerConstants, hardwareMap)
       .pathConstraints(pathConstraints)
       .mecanumDrivetrain(driveConstants)
       .driveEncoderLocalizer(localizerConstants)
-      .build();
+      .build()
   }
 
-  public static MecanumConstants driveConstants = new MecanumConstants()
-    .maxPower(1)
+  var driveConstants: MecanumConstants? = MecanumConstants()
+    .maxPower(1.0)
     .rightFrontMotorName("rfD")
     .rightRearMotorName("rbD")
     .leftRearMotorName("lbD")
@@ -33,9 +33,9 @@ public class Constants {
     .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
     .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
     .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-    .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+    .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
 
-  public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
+  var localizerConstants: DriveEncoderConstants? = DriveEncoderConstants()
     .rightFrontMotorName("rfD")
     .rightRearMotorName("rbD")
     .leftRearMotorName("lbD")
@@ -44,7 +44,8 @@ public class Constants {
     .leftRearEncoderDirection(Encoder.FORWARD)
     .rightFrontEncoderDirection(Encoder.FORWARD)
     .rightRearEncoderDirection(Encoder.FORWARD)
-    .robotLength(12) // TODO: Confirm on Discord where I'm supposed to be measuring these from
-    .robotWidth(16);
+    .robotLength(12.0) // TODO: Confirm on Discord where I'm supposed to be measuring these from
+    .robotWidth(16.0)
+//    .forwardTicksToInches()
   // TODO NEXT: Forward tuner.
 }
