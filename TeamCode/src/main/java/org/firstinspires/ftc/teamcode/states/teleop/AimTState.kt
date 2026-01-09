@@ -19,15 +19,15 @@ class AimTState : State {
     //  - Ask if red or blue
     //  - Automatic control for turret aim
     var hPower = 0.0
-    if (rh.controls.dpadR1())
+    if (rh.controls.dpadR1() || rh.controls.dpadR2())
       hPower += 0.7
-    if (rh.controls.dpadL1())
+    if (rh.controls.dpadL1() || rh.controls.dpadL2())
       hPower -= 0.7
     rh.turretH.horizontalSpeed = hPower
 
-    if (rh.controls.dpadD1())
+    if (rh.controls.dpadD1() || rh.controls.dpadD2())
       rh.turretH.verticalPosition = 0.0
-    else if (rh.controls.dpadU1())
+    else if (rh.controls.dpadU1() || rh.controls.dpadU2())
       rh.turretH.verticalPosition = 1.0
   }
 

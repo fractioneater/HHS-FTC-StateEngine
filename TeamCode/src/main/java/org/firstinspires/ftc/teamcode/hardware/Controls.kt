@@ -81,6 +81,11 @@ class Controls(private val rh: RobotHardware) {
   private val xButton2 = ButtonControl { gp2?.x ?: false }
   private val yButton2 = ButtonControl { gp2?.y ?: false }
 
+  private val dpadR2 = ButtonControl { gp2?.dpad_right ?: false }
+  private val dpadL2 = ButtonControl { gp2?.dpad_left ?: false }
+  private val dpadU2 = ButtonControl { gp2?.dpad_up ?: false }
+  private val dpadD2 = ButtonControl { gp2?.dpad_down ?: false }
+
   fun a2State() = aButton2.state
   fun a2() = gp2?.a ?: false
   fun b2State() = bButton2.state
@@ -89,6 +94,15 @@ class Controls(private val rh: RobotHardware) {
   fun x2() = gp2?.x ?: false
   fun y2State() = yButton2.state
   fun y2() = gp2?.y ?: false
+
+  fun dpadR2State() = dpadR2.state
+  fun dpadR2() = gp2?.dpad_right ?: false
+  fun dpadL2State() = dpadL2.state
+  fun dpadL2() = gp2?.dpad_left ?: false
+  fun dpadU2State() = dpadU2.state
+  fun dpadU2() = gp2?.dpad_up ?: false
+  fun dpadD2State() = dpadD2.state
+  fun dpadD2() = gp2?.dpad_down ?: false
 
   // TODO: This is where you will place code for accessing the gamepad inputs ------------------------------------------------------------
 
