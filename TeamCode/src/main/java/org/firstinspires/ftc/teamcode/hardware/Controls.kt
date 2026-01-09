@@ -55,6 +55,8 @@ class Controls(private val rh: RobotHardware) {
 
   private val dpadR1 = ButtonControl { gp1?.dpad_right ?: false }
   private val dpadL1 = ButtonControl { gp1?.dpad_left ?: false }
+  private val dpadU1 = ButtonControl { gp1?.dpad_up ?: false }
+  private val dpadD1 = ButtonControl { gp1?.dpad_down ?: false }
 
   fun a1State() = aButton1.state
   fun a1() = gp1?.a ?: false
@@ -65,8 +67,14 @@ class Controls(private val rh: RobotHardware) {
   fun y1State() = yButton1.state
   fun y1() = gp1?.y ?: false
 
-  fun dpadR1JustPressed() = dpadR1.state == ButtonState.PRESSED
-  fun dpadL1JustPressed() = dpadL1.state == ButtonState.PRESSED
+  fun dpadR1State() = dpadR1.state
+  fun dpadR1() = gp1?.dpad_right ?: false
+  fun dpadL1State() = dpadL1.state
+  fun dpadL1() = gp1?.dpad_left ?: false
+  fun dpadU1State() = dpadU1.state
+  fun dpadU1() = gp1?.dpad_up ?: false
+  fun dpadD1State() = dpadD1.state
+  fun dpadD1() = gp1?.dpad_down ?: false
 
   private val aButton2 = ButtonControl { gp2?.a ?: false }
   private val bButton2 = ButtonControl { gp2?.b ?: false }

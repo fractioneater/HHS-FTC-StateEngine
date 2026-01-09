@@ -12,10 +12,14 @@ class TurretTState : State {
 
   override fun run() {
     val lb = rh.controls.leftBumper1()
-    val rb = rh.controls.rightBumper1()
 
-    rh.turretH.flywheelSpeed = if (rb) 1.0 else 0.0
+    rh.turretH.flywheelSpeed = rh.controls.leftTrigger1()
     rh.turretH.intakeSpeed = if (lb) 1.0 else 0.0
+
+    if (rh.controls.leftTrigger1() > 0.95)
+      rh.turretH.pusherUp()
+    else
+      rh.turretH.pusherDown()
   }
 
   override val isDone = false

@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode.hardware
 import com.qualcomm.hardware.dfrobot.HuskyLens
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.CRServoControl
+import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
-import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.MotorControl
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl
 import java.util.Locale
 
@@ -14,6 +13,9 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
   private lateinit var intake: DcMotorEx
   private lateinit var horizontalAim: DcMotorEx
   private lateinit var verticalAim: ServoControl
+  private lateinit var pusher: Servo
+
+  private var pusherIsUp = false
 
   var flywheelSpeed: Double
     get() = flywheel.power
@@ -39,11 +41,26 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
       verticalAim.targetPosition = value.coerceIn(0.0..1.0)
     }
 
+  fun pusherDown() {
+    if (pusherIsUp) {
+      pusherIsUp = false
+      pusher.position = 0.0
+    }
+  }
+
+  fun pusherUp() {
+    if (!pusherIsUp) {
+      pusherIsUp = true
+      pusher.position = 1.0
+    }
+  }
+
   override fun initialize() {
     flywheel = rh.op.hardwareMap.get(DcMotorEx::class.java, "flywheel")
     intake = rh.op.hardwareMap.get(DcMotorEx::class.java, "intake")
     horizontalAim = rh.op.hardwareMap.get(DcMotorEx::class.java, "horizontal")
     verticalAim = ServoControl(rh, "vertical")
+    pusher = rh.op.hardwareMap.get(Servo::class.java, "pusher")
 
     flywheel.direction = Direction.REVERSE
 

@@ -28,6 +28,8 @@ class SortHardware(private val rh: RobotHardware) : Hardware {
   override fun update() {}
 
   override fun telemetry() {
-    // TODO
+    rh.op.telemetry.addLine("\nsort\n----")
+    // Will show something like this: "position 3 of 7 (launch)"
+    rh.op.telemetry.addLine("position ${servo.positionsIndex + 1} of ${servo.positionsCount} (${if (servo.positionsIndex and 1 == 1) "launch" else "intake"})")
   }
 }
