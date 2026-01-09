@@ -18,8 +18,9 @@ class MotorTestTState : State {
       if (rh.controls.b1()) 1.0 else 0.0
     )
 
-    rh.launcherH.flywheelSpeed = rh.controls.rightTrigger1()
-    rh.launcherH.intakeSpeed = rh.controls.leftTrigger1()
+    rh.turretH.flywheelSpeed = rh.controls.rightTrigger1()
+    rh.turretH.intakeSpeed = rh.controls.leftTrigger1()
+    rh.turretH.horizontalSpeed = rh.controls.driveR()
 
     // Telemetry.
     rh.op.telemetry.addLine("Tilt the controller 45° clockwise. Now ABXY buttons correspond to the drive motor in their position.")
@@ -31,6 +32,11 @@ class MotorTestTState : State {
     rh.op.telemetry.addLine()
     rh.op.telemetry.addLine("Press [right_trigger] for flywheel speed.")
     rh.op.telemetry.addLine("Press [left_trigger] for intake speed.")
+    rh.op.telemetry.addLine("Move GP1 right joystick for horizontal aim.")
+
+//    rh.op.telemetry.addLine()
+//    rh.op.telemetry.addLine("Drive encoders:")
+//    rh.op.telemetry.addLine("\tLF: ") // TODO.
   }
 
   override val isDone = false

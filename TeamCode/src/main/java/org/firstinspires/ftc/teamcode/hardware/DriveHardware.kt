@@ -38,6 +38,10 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
     rightBackDrive.power = powerRB
   }
 
+  fun distancesTraveled() {
+    // AAAAAH TODO
+  }
+
   fun drive(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
     this.axial = axial
     this.lateral = lateral

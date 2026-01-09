@@ -51,6 +51,9 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
     targetPosition = positions[0]
   }
 
+  val positionsCount: Int
+    get() = positions.size
+
   fun goToPresetPosition(index: Int) {
     goToPosition(positions[index])
     positionsIndex = index
