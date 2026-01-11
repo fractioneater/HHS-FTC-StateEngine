@@ -24,3 +24,22 @@ class PathState(val follower: Follower, val path: PathChain) : State {
   override val isDone: Boolean
     get() = !follower.isBusy
 }
+
+class AutoState() : State {
+
+    private lateinit var rh: RobotHardware
+    override fun init(rh: RobotHardware) {
+        this.rh = rh
+    }
+
+    override fun run() {
+        if (rh.runtime.seconds() < 0.5) {
+            rh.driveH.drive(0.7, 0.0, 0.0, 1.0)
+        } else {
+            rh.driveH.drive(0.0, 0.0, 0.0, 1.0)
+        }
+    }
+
+    override val isDone: Boolean
+        get() = false
+}

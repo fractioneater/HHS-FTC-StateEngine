@@ -142,14 +142,18 @@ class Controls(private val rh: RobotHardware) {
   // Rotation movement control
   fun driveR() =
     if (gp1 == null) 0.0
-    else curveInput(gp1!!.right_stick_x.toDouble())
+    else curveInput(gp1!!.right_stick_x.toDouble() / -1.0)
 
   // Movement speed control
   // Scaling between 0.5 and 1
   fun driveMaxSpeed() =
     if (gp1 != null && gp2 != null) {
-      if (gp1!!.right_trigger == 0f) 0.5 + gp2!!.right_trigger / 3.0
-      else 0.5 + gp1!!.right_trigger / 2.0
+        // temporary quick change to move the boost to right bumper
+      if (gp1!!.right_bumper) {
+          1.0
+      } else {
+          0.7
+      }
     } else {
       0.5 + ((gp1?.right_trigger?.toDouble() ?: (gp2?.right_trigger?.toDouble() ?: 0.0))) / 2.0
     }
