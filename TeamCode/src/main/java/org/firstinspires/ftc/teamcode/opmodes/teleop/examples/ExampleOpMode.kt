@@ -34,6 +34,7 @@ class ExampleOpMode : LinearOpMode() {
     while (opModeIsActive()) {
       stack.run()
       rh.update()
+      rh.controls.updateButtonControls()
 
       telemetry.addLine("runtime: ${rh.runtime}")
       rh.telemetry()

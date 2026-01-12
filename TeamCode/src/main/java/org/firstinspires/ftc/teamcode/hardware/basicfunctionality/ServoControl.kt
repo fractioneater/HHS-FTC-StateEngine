@@ -24,7 +24,11 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   var positionsIndex: Int = -1
 
   var currentPosition: Double = 0.0
-  var targetPosition: Double = 0.0
+  var targetPosition: Double
+    get() = servo.position
+    set(value) {
+      servo.position = value
+    }
 
   constructor(rh: RobotHardware, name: String) : this(rh, name, 0.15 /* TODO: Step size */)
 
@@ -45,7 +49,6 @@ class ServoControl(val rh: RobotHardware, val name: String, val stepSize: Double
   fun setPositions(positions: DoubleArray) { // Should ONLY be called in initialization
     this.positions = positions
 
-    servo.position = positions[0]
     positionsIndex = 0
     currentPosition = positions[0]
     targetPosition = positions[0]

@@ -48,6 +48,7 @@ class DecodeAuto : LinearOpMode() {
         follower.update()
         stack.run()
         rh.update()
+        rh.controls.updateButtonControls()
         val currentPose = follower.pose
         // TODO: Pose telemetry.
       }

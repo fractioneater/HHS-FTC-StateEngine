@@ -32,6 +32,7 @@ class MotorTestTeleop : LinearOpMode() {
     while (opModeIsActive()) {
       stack.run()
       rh.update()
+      rh.controls.updateButtonControls()
       rh.telemetry()
       telemetry.update()
     }

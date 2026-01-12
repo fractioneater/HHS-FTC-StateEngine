@@ -11,16 +11,19 @@ class Controls(private val rh: RobotHardware) {
   private class ButtonControl(val inputCallback: () -> Boolean) {
     private var held = false
 
-    val state: ButtonState
-      get() {
-        return if (inputCallback()) {
-          if (held) ButtonState.HELD
-          else ButtonState.PRESSED
-        } else {
-          if (held) ButtonState.RELEASED
-          else ButtonState.NOT_PRESSED
-        }
+    var state: ButtonState = ButtonState.NOT_PRESSED
+
+    fun update() {
+      if (inputCallback()) {
+        state = if (held) ButtonState.HELD
+        else ButtonState.PRESSED
+        held = true
+      } else {
+        state = if (held) ButtonState.RELEASED
+        else ButtonState.NOT_PRESSED
+        held = false
       }
+    }
   }
 
   private var gp2: Gamepad? = null
@@ -104,6 +107,31 @@ class Controls(private val rh: RobotHardware) {
   fun dpadD2State() = dpadD2.state
   fun dpadD2() = gp2?.dpad_down ?: false
 
+  private val buttonControls =
+    arrayOf(
+      aButton1,
+      bButton1,
+      xButton1,
+      yButton1,
+      dpadR1,
+      dpadL1,
+      dpadU1,
+      dpadD1,
+      aButton2,
+      bButton2,
+      xButton2,
+      yButton2,
+      dpadR2,
+      dpadL2,
+      dpadU2,
+      dpadD2
+    )
+
+  fun updateButtonControls() {
+    for (b in buttonControls)
+      b.update()
+  }
+
   // TODO: This is where you will place code for accessing the gamepad inputs ------------------------------------------------------------
 
   /**
@@ -148,11 +176,11 @@ class Controls(private val rh: RobotHardware) {
   // Scaling between 0.5 and 1
   fun driveMaxSpeed() =
     if (gp1 != null && gp2 != null) {
-        // temporary quick change to move the boost to right bumper
+      // temporary quick change to move the boost to right bumper
       if (gp1!!.right_bumper) {
-          1.0
+        1.0
       } else {
-          0.7
+        0.7
       }
     } else {
       0.5 + ((gp1?.right_trigger?.toDouble() ?: (gp2?.right_trigger?.toDouble() ?: 0.0))) / 2.0

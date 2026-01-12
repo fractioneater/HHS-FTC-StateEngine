@@ -25,6 +25,8 @@ class SortHardware(private val rh: RobotHardware) : Hardware {
       servo.goToPresetPosition(servo.positionsIndex - 1)
   }
 
+  fun getPosIndex() = servo.positionsIndex
+
   override fun update() {}
 
   override fun telemetry() {

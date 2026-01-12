@@ -52,6 +52,7 @@ class ExampleRoadRunnerAutonomous : LinearOpMode() {
       if (!stack.isDone) {
         stack.run()
         rh.update()
+        rh.controls.updateButtonControls()
       }
 
       telemetry.addLine("runtime: ${rh.runtime}")
