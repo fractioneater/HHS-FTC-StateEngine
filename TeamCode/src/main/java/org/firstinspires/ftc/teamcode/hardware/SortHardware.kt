@@ -39,13 +39,14 @@ class SortHardware(private val rh: RobotHardware) : Hardware {
       servo.goToPresetPosition(servo.positionsIndex + 1)
   }
 
-  fun getPosIndex() = servo.positionsIndex
+  fun inLaunchPosition() = servo.positionsIndex and 1 == 1
+  fun inIntakePosition() = servo.positionsIndex and 1 == 0
 
   override fun update() {}
 
   override fun telemetry() {
     rh.op.telemetry.addLine("\nsort\n----")
     // Will show something like this: "position 3 of 7 (launch)"
-    rh.op.telemetry.addLine("position ${servo.positionsIndex + 1} of ${servo.positionsCount} (${if (servo.positionsIndex and 1 == 1) "launch" else "intake"})")
+    rh.op.telemetry.addLine("position ${servo.positionsIndex + 1} of ${servo.positionsCount} (${if (inLaunchPosition()) "launch" else "intake"})")
   }
 }
