@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware
 
+import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
@@ -25,22 +26,40 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
     rightFrontDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rfD")
     rightBackDrive = rh.op.hardwareMap.get(DcMotorEx::class.java, "rbD")
 
-    leftFrontDrive.direction = Direction.REVERSE
-    leftBackDrive.direction = Direction.REVERSE
-    rightFrontDrive.direction = Direction.FORWARD
-    rightBackDrive.direction = Direction.FORWARD
+    leftFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+    leftBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+    rightFrontDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+    rightBackDrive.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+
+    leftFrontDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
+    leftBackDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
+    rightFrontDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
+    rightBackDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
+
+    if (rh.op.hardwareMap.get("this-is-6383") != null) {
+      leftFrontDrive.direction = Direction.FORWARD
+      leftBackDrive.direction = Direction.FORWARD
+      rightFrontDrive.direction = Direction.REVERSE
+      rightBackDrive.direction = Direction.REVERSE
+    } else {
+      leftFrontDrive.direction = Direction.REVERSE
+      leftBackDrive.direction = Direction.REVERSE
+      rightFrontDrive.direction = Direction.FORWARD
+      rightBackDrive.direction = Direction.FORWARD
+    }
   }
 
   fun setPower(powerLF: Double, powerRF: Double, powerLB: Double, powerRB: Double) {
     leftFrontDrive.power = powerLF
-    rightFrontDrive.power = powerRF
     leftBackDrive.power = powerLB
+    rightFrontDrive.power = powerRF
     rightBackDrive.power = powerRB
   }
 
-  fun distancesTraveled() {
-    // AAAAAH TODO
-  }
+  fun lfPosition() = leftFrontDrive.currentPosition
+  fun lbPosition() = leftBackDrive.currentPosition
+  fun rfPosition() = rightFrontDrive.currentPosition
+  fun rbPosition() = rightBackDrive.currentPosition
 
   fun drive(axial: Double, lateral: Double, yaw: Double, maximum: Double) {
     this.axial = axial

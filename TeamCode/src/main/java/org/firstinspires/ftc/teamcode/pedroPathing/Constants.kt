@@ -30,10 +30,10 @@ object Constants {
     .rightRearMotorName("rbD")
     .leftRearMotorName("lbD")
     .leftFrontMotorName("lfD")
-    .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-    .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-    .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-    .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+    .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+    .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+    .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+    .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
 
   var localizerConstants: DriveEncoderConstants? = DriveEncoderConstants()
     .rightFrontMotorName("rfD")
@@ -42,10 +42,10 @@ object Constants {
     .leftFrontMotorName("lfD")
     .leftFrontEncoderDirection(Encoder.FORWARD)
     .leftRearEncoderDirection(Encoder.FORWARD)
-    .rightFrontEncoderDirection(Encoder.FORWARD)
-    .rightRearEncoderDirection(Encoder.FORWARD)
-    .robotLength(12.0) // TODO: Confirm on Discord where I'm supposed to be measuring these from
-    .robotWidth(16.0)
+    .rightFrontEncoderDirection(Encoder.REVERSE)
+    .rightRearEncoderDirection(Encoder.REVERSE)
+    .robotLength(8.42)
+    .robotWidth(14.33)
 //    .forwardTicksToInches()
   // TODO NEXT: Forward tuner.
 }

@@ -34,9 +34,10 @@ class MotorTestTState : State {
     rh.op.telemetry.addLine("Press [left_trigger] for intake speed.")
     rh.op.telemetry.addLine("Move GP1 right joystick for horizontal aim.")
 
-//    rh.op.telemetry.addLine()
-//    rh.op.telemetry.addLine("Drive encoders:")
-//    rh.op.telemetry.addLine("\tLF: ") // TODO.
+    rh.op.telemetry.addLine()
+    rh.op.telemetry.addLine("Drive encoders:")
+    rh.op.telemetry.addLine("\tLF: ${rh.driveH.lfPosition()}\tRF: ${rh.driveH.rfPosition()}")
+    rh.op.telemetry.addLine("\tLB: ${rh.driveH.lbPosition()}\tRB: ${rh.driveH.rbPosition()}")
   }
 
   override val isDone = false
