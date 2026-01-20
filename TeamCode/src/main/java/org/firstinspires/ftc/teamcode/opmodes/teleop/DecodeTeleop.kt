@@ -17,7 +17,9 @@ class DecodeTeleop : LinearOpMode() {
   override fun runOpMode() {
     rh.initialize()
 
-    val states = arrayOf(DriveTState(), TurretTState(), AimTState(), SortTState())
+    val states6383 = arrayOf(DriveTState(), TurretTState(), AimTState())
+    val states15317 = arrayOf(DriveTState(), TurretTState(), AimTState(), SortTState())
+    val states = if (rh.op.hardwareMap.get("this-is-6383") != null) states6383 else states15317
     val stack = ParallelStack(states)
 
     stack.init(rh)

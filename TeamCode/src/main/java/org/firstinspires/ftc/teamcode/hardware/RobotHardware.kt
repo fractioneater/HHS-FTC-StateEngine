@@ -10,43 +10,36 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
 
   @JvmField
   var controls: Controls = Controls(this)
-  var hardware: Array<Hardware>
+  var hardware: Array<Hardware> = arrayOf()
 
-  /* TODO
-      This is where you will declare all your hardware objects:
-      ex) var sampleH = SampleHardware(this) */
+  /* TODO: This is where you will declare all your hardware objects.
+   *   ex) var sampleH: SampleHardware? */
   @JvmField
-  var driveH = DriveHardware(this)
+  var driveH: DriveHardware = DriveHardware(this)
   @JvmField
-  var cameraH = ArtifactCameraHardware(this)
+  var cameraH: ArtifactCameraHardware = ArtifactCameraHardware(this)
   @JvmField
-  var turretH = TurretHardware(this)
+  var turretH: TurretHardware = TurretHardware(this)
   @JvmField
-  var sortH = SortHardware(this)
-
-  init {
-    hardware = arrayOf<Hardware>(
-      /* TODO
-          Here you will setup all your hardware objects in this list. The list is here for the opmode to loop through.
-          ex) sampleH, otherH, thirdH */
-      driveH, cameraH, turretH, sortH
-    )
-  }
+  var sortH: SortHardware? = null
 
   // Initialize all the hardware objects
   override fun initialize() {
+    if (op.hardwareMap.get("this-is-6383") == null) {
+      sortH = SortHardware(this) // 15317 only
+      hardware = arrayOf(driveH, cameraH, turretH, sortH!!)
+    } else {
+      hardware = arrayOf(driveH, cameraH, turretH)
+    }
+
     runtime.reset() // Generally this should be called after waitForStart() anyway, but it's not causing any harm here.
     controls.initialize()
-    for (hw in hardware) {
-      hw.initialize()
-    }
+    hardware.forEach { it.initialize() }
   }
 
   // Update all the hardware objects so that they will have accurate data and update the target positions of motors, servos, etc.
   override fun update() {
-    for (hw in hardware) {
-      hw.update()
-    }
+    hardware.forEach { it.update() }
   }
 
   // Print out the telemetry data for each hardware object

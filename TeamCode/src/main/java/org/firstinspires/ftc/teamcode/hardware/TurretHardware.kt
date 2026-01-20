@@ -64,12 +64,8 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
 
     flywheel.direction = Direction.REVERSE
 
-    try {
-      rh.op.hardwareMap.get(HuskyLens::class.java, "this-is-6383")
-      intake.direction = Direction.REVERSE
-    } catch (_: Exception) {
-      intake.direction = Direction.REVERSE
-    }
+    intake.direction = if (rh.op.hardwareMap.get("this-is-6383") != null) Direction.FORWARD
+    else Direction.REVERSE
   }
 
   override fun update() {}
