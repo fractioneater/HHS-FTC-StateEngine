@@ -11,20 +11,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 
 object Constants {
-  var followerConstants = FollowerConstants().mass(7.0)!! // TODO!
+  val followerConstants = FollowerConstants().mass(7.0)!! // TODO!
 
-  var pathConstraints: PathConstraints = PathConstraints(0.99, 100.0, 1.0, 1.0)
+  val pathConstraints: PathConstraints = PathConstraints(0.99, 100.0, 1.0, 1.0)
 
   @JvmStatic
   fun createFollower(hardwareMap: HardwareMap): Follower {
     return FollowerBuilder(followerConstants, hardwareMap)
       .pathConstraints(pathConstraints)
       .mecanumDrivetrain(driveConstants)
-      .threeWheelLocalizer(localizerConstants)
+      .threeWheelLocalizer(if (hardwareMap.get("this-is-6383") != null) localizerConstants6383 else localizerConstants15317)
       .build()
   }
 
-  var driveConstants: MecanumConstants = MecanumConstants()
+  val driveConstants: MecanumConstants = MecanumConstants()
     .maxPower(1.0)
     .rightFrontMotorName("rfD")
     .rightRearMotorName("rbD")
@@ -35,17 +35,24 @@ object Constants {
     .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
     .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
 
-  var localizerConstants: ThreeWheelConstants = ThreeWheelConstants()
+  var baseLocalizerConstants: ThreeWheelConstants = ThreeWheelConstants()
     .forwardTicksToInches(.001989436789)
     .strafeTicksToInches(.001989436789)
     .turnTicksToInches(.001989436789)
-    .leftPodY(5.433) // Done by CAD measurement FOR 6383! TODO: 15317
-    .rightPodY(-5.433) // Done by CAD measurement FOR 6383! Same TODO as above.
-    .strafePodX(-2.5) // TODO! Onshape can't give this one.
-    .leftEncoder_HardwareMapName("lfD") // TODO: the names of these three
+    .leftEncoder_HardwareMapName("lfD") // TODO: the names of these three, possibly put these into robot-based constants
     .rightEncoder_HardwareMapName("rbD") // ...
     .strafeEncoder_HardwareMapName("rfD") // ...
     .leftEncoderDirection(Encoder.FORWARD)
     .rightEncoderDirection(Encoder.FORWARD)
     .strafeEncoderDirection(Encoder.FORWARD)
+
+  val localizerConstants6383: ThreeWheelConstants = baseLocalizerConstants
+    .leftPodY(5.433) // Done by CAD measurement and WRONG (TODO)
+    .rightPodY(-5.433)
+    .strafePodX(-2.5) // TODO! Onshape can't give this one.
+
+  val localizerConstants15317: ThreeWheelConstants = baseLocalizerConstants
+    .leftPodY(5.9) // Done by CAD measurement
+    .rightPodY(-5.9)
+    .strafePodX(-2.5) // TODO! Onshape can't give this one.
 }
