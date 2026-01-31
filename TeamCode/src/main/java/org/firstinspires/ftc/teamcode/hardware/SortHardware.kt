@@ -8,37 +8,48 @@ class SortHardware(private val rh: RobotHardware) : Hardware {
 
   override fun initialize() {
     servo = ServoControl(rh, "sort")
-    servo.setPositions(doubleArrayOf(0.0, 1.0 / 6, 1.0 / 3, 1.0 / 2, 2.0 / 3, 5.0 / 6, 1.0))
   }
 
-  fun slot0() {
+  fun initializeLater() {
+    servo.setPositions(doubleArrayOf(0.5, 1.0))
+  }
+
+  fun launch() {
     servo.goToPresetPosition(1)
   }
 
-  fun slot1() {
-    servo.goToPresetPosition(3)
+  fun intake() {
+    servo.goToPresetPosition(0)
   }
 
-  fun slot2() {
-    servo.goToPresetPosition(5)
-  }
+//  fun slot0() {
+//    servo.goToPresetPosition(1)
+//  }
 
-  fun nearestIntake() {
-    if (servo.positionsIndex and 1 == 1) // If in launch position
-      nextPos()
-    else { // If in intake position
-      if (servo.positionsIndex == servo.positionsCount - 1)
-        servo.goToPresetPosition(2)
-      else
-        servo.goToPresetPosition(servo.positionsIndex + 2)
-    }
-  }
+//  fun slot1() {
+//    servo.goToPresetPosition(3)
+//  }
+//
+//  fun slot2() {
+//    servo.goToPresetPosition(5)
+//  }
 
-  fun nextPos() {
-    if (servo.positionsIndex != servo.positionsCount - 1)
-      servo.goToPresetPosition(servo.positionsIndex + 1)
-  }
-
+//  fun nearestIntake() {
+//    if (servo.positionsIndex and 1 == 1) // If in launch position
+//      nextPos()
+//    else { // If in intake position
+//      if (servo.positionsIndex == servo.positionsCount - 1)
+//        servo.goToPresetPosition(2)
+//      else
+//        servo.goToPresetPosition(servo.positionsIndex + 2)
+//    }
+//  }
+//
+//  fun nextPos() {
+//    if (servo.positionsIndex != servo.positionsCount - 1)
+//      servo.goToPresetPosition(servo.positionsIndex + 1)
+//  }
+//
   fun inLaunchPosition() = servo.positionsIndex and 1 == 1
   fun inIntakePosition() = servo.positionsIndex and 1 == 0
 

@@ -36,12 +36,19 @@ class DriveHardware(@JvmField val rh: RobotHardware) : Hardware {
     rightFrontDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
     rightBackDrive.mode = DcMotor.RunMode.RUN_USING_ENCODER
 
-    if (rh.op.hardwareMap.get("this-is-6383") != null) {
-      leftFrontDrive.direction = Direction.FORWARD
-      leftBackDrive.direction = Direction.FORWARD
-      rightFrontDrive.direction = Direction.REVERSE
-      rightBackDrive.direction = Direction.REVERSE
-    } else {
+    try {
+      if (rh.op.hardwareMap.get("this-is-6383") != null) {
+        leftFrontDrive.direction = Direction.FORWARD
+        leftBackDrive.direction = Direction.FORWARD
+        rightFrontDrive.direction = Direction.REVERSE
+        rightBackDrive.direction = Direction.REVERSE
+      } else {
+        leftFrontDrive.direction = Direction.REVERSE
+        leftBackDrive.direction = Direction.REVERSE
+        rightFrontDrive.direction = Direction.FORWARD
+        rightBackDrive.direction = Direction.FORWARD
+      }
+    } catch (_: Exception ) {
       leftFrontDrive.direction = Direction.REVERSE
       leftBackDrive.direction = Direction.REVERSE
       rightFrontDrive.direction = Direction.FORWARD

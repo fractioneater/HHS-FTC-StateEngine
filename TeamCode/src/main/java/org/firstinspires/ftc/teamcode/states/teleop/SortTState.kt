@@ -12,10 +12,12 @@ class SortTState : State {
   }
 
   override fun run() {
-    if (rh.controls.x1State() == ButtonState.PRESSED) rh.sortH?.slot0()
-    else if (rh.controls.y1State() == ButtonState.PRESSED) rh.sortH?.slot1()
-    else if (rh.controls.b1State() == ButtonState.PRESSED) rh.sortH?.slot2()
-    else if (rh.controls.a1State() == ButtonState.PRESSED) rh.sortH?.nearestIntake()
+    if (rh.controls.a1State() == ButtonState.PRESSED) rh.sortH?.intake()
+    if (rh.controls.b1State() == ButtonState.PRESSED) rh.sortH?.launch()
+//    if (rh.controls.x1State() == ButtonState.PRESSED) rh.sortH?.slot0()
+//    else if (rh.controls.y1State() == ButtonState.PRESSED) rh.sortH?.slot1()
+//    else if (rh.controls.b1State() == ButtonState.PRESSED) rh.sortH?.slot2()
+//    else if (rh.controls.a1State() == ButtonState.PRESSED) rh.sortH?.nearestIntake()
   }
 
   override val isDone = false

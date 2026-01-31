@@ -20,7 +20,13 @@ object Constants {
     return FollowerBuilder(followerConstants, hardwareMap)
       .pathConstraints(pathConstraints)
       .mecanumDrivetrain(driveConstants)
-      .threeWheelLocalizer(if (hardwareMap.get("this-is-6383") != null) localizerConstants6383 else localizerConstants15317)
+      .threeWheelLocalizer(
+        try {
+          if (hardwareMap.get("this-is-6383") != null) localizerConstants6383 else localizerConstants15317
+        } catch (_: Exception) {
+          localizerConstants15317
+        }
+      )
       .build()
   }
 

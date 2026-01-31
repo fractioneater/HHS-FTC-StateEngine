@@ -16,19 +16,16 @@ class TurretTState : State {
     rh.turretH.flywheelSpeed = rh.controls.leftTrigger1()
     if (lb) {
       rh.turretH.intakeSpeed = 1.0
-      if (rh.sortH?.inLaunchPosition() ?: false) rh.sortH?.nearestIntake()
+      if (rh.sortH?.inLaunchPosition() ?: false) rh.sortH?.intake()
     } else
       rh.turretH.intakeSpeed = 0.0
 
-    if (rh.controls.leftTrigger1() > 0.3  && rh.sortH?.inIntakePosition() ?: false) {
-      // Ready to launch but the sort is in intake position.
-      rh.sortH?.nextPos() // There may be a better way, possibly launching the previously loaded one.
-    }
+    if (rh.controls.leftTrigger1() > 0.95)
+      rh.turretH.pusherUp()
+    else
+      rh.turretH.pusherDown()
 
-//    if (rh.controls.leftTrigger1() > 0.95)
-//      rh.turretH.pusherUp()
-//    else
-//      rh.turretH.pusherDown()
+    rh.turretH.updatePusherPower()
   }
 
   override val isDone = false

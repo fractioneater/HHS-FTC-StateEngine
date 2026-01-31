@@ -25,11 +25,16 @@ class RobotHardware(@JvmField var op: OpMode) : Hardware {
 
   // Initialize all the hardware objects
   override fun initialize() {
-    if (op.hardwareMap.get("this-is-6383") == null) {
-      sortH = SortHardware(this) // 15317 only
+    try {
+      if (op.hardwareMap.get("this-is-6383") != null)
+        hardware = arrayOf(driveH, cameraH, turretH)
+      else {
+        sortH = SortHardware(this)
+        hardware = arrayOf(driveH, cameraH, turretH, sortH!!)
+      }
+    } catch (_: Exception ) {
+      sortH = SortHardware(this)
       hardware = arrayOf(driveH, cameraH, turretH, sortH!!)
-    } else {
-      hardware = arrayOf(driveH, cameraH, turretH)
     }
 
     runtime.reset() // Generally this should be called after waitForStart() anyway, but it's not causing any harm here.

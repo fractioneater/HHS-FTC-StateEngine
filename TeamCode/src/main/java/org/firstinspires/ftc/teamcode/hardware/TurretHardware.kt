@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.teamcode.hardware
 
-import com.qualcomm.hardware.dfrobot.HuskyLens
+import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.Hardware
 import org.firstinspires.ftc.teamcode.hardware.basicfunctionality.ServoControl
 import java.util.Locale
+import kotlin.math.abs
 
 class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
   private lateinit var flywheel: DcMotorEx
   private lateinit var intake: DcMotorEx
   private lateinit var horizontalAim: DcMotorEx
   private lateinit var verticalAim: ServoControl
-  private lateinit var pusher: Servo
+  private lateinit var pusherServo: Servo
+  private lateinit var pusherMotor: DcMotorEx
 
   private var pusherIsUp = false
 
@@ -44,15 +46,24 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
   fun pusherDown() {
     if (pusherIsUp) {
       pusherIsUp = false
-      pusher.position = 0.0
+      pusherServo.position = 0.0
+      pusherMotor.targetPosition = 1
     }
   }
 
   fun pusherUp() {
     if (!pusherIsUp) {
       pusherIsUp = true
-      pusher.position = 1.0
+      pusherServo.position = 0.5
+      pusherMotor.targetPosition = -127
     }
+  }
+
+  fun updatePusherPower() {
+    val dist = abs(pusherMotor.currentPosition - pusherMotor.targetPosition)
+    if (dist < 6) pusherMotor.power = 0.0
+    else if (dist < 30) pusherMotor.power = 0.4
+    else pusherMotor.power = 0.8
   }
 
   override fun initialize() {
@@ -60,12 +71,25 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
     intake = rh.op.hardwareMap.get(DcMotorEx::class.java, "intake")
     horizontalAim = rh.op.hardwareMap.get(DcMotorEx::class.java, "horizontal")
     verticalAim = ServoControl(rh, "vertical")
-    pusher = rh.op.hardwareMap.get(Servo::class.java, "pusher")
 
-    flywheel.direction = Direction.REVERSE
+    pusherServo = rh.op.hardwareMap.get(Servo::class.java, "pusherServo")
+    pusherMotor = rh.op.hardwareMap.get(DcMotorEx::class.java, "pusher")
 
-    intake.direction = if (rh.op.hardwareMap.get("this-is-6383") != null) Direction.FORWARD
-    else Direction.REVERSE
+    pusherMotor.mode = DcMotor.RunMode.STOP_AND_RESET_ENCODER
+    pusherMotor.targetPosition = 0
+    pusherMotor.mode = DcMotor.RunMode.RUN_TO_POSITION
+
+    intake.direction = try {
+      if (rh.op.hardwareMap.get("this-is-6383") != null) Direction.REVERSE else Direction.FORWARD
+    } catch (_: Exception) { // 15317
+      Direction.FORWARD
+    }
+
+    flywheel.direction = try {
+      if (rh.op.hardwareMap.get("this-is-6383") != null) Direction.FORWARD else Direction.REVERSE
+    } catch (_: Exception) { // 15317
+      Direction.REVERSE
+    }
   }
 
   override fun update() {}
@@ -79,6 +103,9 @@ class TurretHardware(@JvmField val rh: RobotHardware) : Hardware {
 
     rh.op.telemetry.addLine("\naim\n----")
     rh.op.telemetry.addLine("horizontal power: ${f(horizontalSpeed)}")
+
+    rh.op.telemetry.addLine("\npusher\n----")
+    rh.op.telemetry.addLine("pusher: current ${pusherMotor.currentPosition}, target ${pusherMotor.targetPosition}")
     verticalAim.telemetry()
   }
 }
